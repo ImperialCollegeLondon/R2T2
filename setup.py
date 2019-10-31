@@ -9,7 +9,7 @@ r2t2_classifiers = [
 ]
 
 tests_require = ["pytest", "pytest-flake8", "pytest-mypy"]
-
+precommit = ["pre-commit"]
 
 setup(
     name="R2T2",
@@ -18,6 +18,7 @@ setup(
     author_email="rcs-support@imperial.ac.uk",
     url="https://github.com/ImperialCollegeLondon/R2T2",
     tests_require=tests_require,
+    extras_require={"dev": tests_require + precommit},
     py_modules=["r2t2"],
     description="Research references tracking tool",
     license="MIT",
