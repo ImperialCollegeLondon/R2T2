@@ -1,4 +1,3 @@
-__version__ = 0.1
 import inspect
 
 bibliography: list = []
@@ -77,19 +76,3 @@ def track_science(track_each_call: bool = False):
     global track_science_references, track_each_reference_call
     track_science_references = True
     track_each_reference_call = track_each_call
-
-
-if __name__ == "__main__":
-
-    def myRandomFunctionA() -> None:
-        myRandomFunctionB(d=1)
-
-    def myRandomFunctionB(d) -> None:
-        a = 1
-
-        science_reference("doing something smart", "My Awesome Book, by me.")
-
-    track_science()
-    myRandomFunctionA()
-    myRandomFunctionA()
-    print_references()
