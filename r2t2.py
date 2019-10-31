@@ -1,3 +1,4 @@
+__version__ = 0.1
 import inspect
 
 bibliography: list = []
