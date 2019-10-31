@@ -30,7 +30,7 @@ Which markers were passed in a particular program run can be recalled with `r2t2
 
 *R2T2* was designed initially to find out the scientific references that a given script using [Solcore](https://github.com/qpv-research-group/solcore5) was benefiting from. While useful, this is somewhat restrictive.
 
-The immediate goal for *R2T2* is to be able to provide a list of all references that a given piece of package is based on (i.e. ALL the `science_reference` markers it contains) and not just those crossed by a particular run of a script using the package. 
+The immediate goal for *R2T2* is to be able to provide a list of all references that a given package is based on (i.e. ALL the `science_reference` markers it contains) and not just those crossed by a particular run of a script using the package. 
 
 ## Prior art
 
