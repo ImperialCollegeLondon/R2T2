@@ -18,7 +18,10 @@ Some of the benefits of using *R2T2* in your project are:
 from r2t2 import science_reference
 ...
 science_reference(short_purpose="Original implementation of R2T2", 
-reference="Diego Alonso-Álvarez, Thomas Wilson, Phoebe Pearce, Markus Führer, Daniel Farrell, & Nicholas Ekins-Daukes. (2018, February 27). Solcore (Version 5.1.0). Zenodo. http://doi.org/10.5281/zenodo.1185316")
+                  reference="Diego Alonso-Álvarez, Thomas Wilson, Phoebe Pearce," 
+                            "Markus Führer, Daniel Farrell, & Nicholas Ekins-Daukes."
+                            "(2018, February 27). Solcore (Version 5.1.0). Zenodo."
+                            "http://doi.org/10.5281/zenodo.1185316")
 ```
 
 Which markers were passed in a particular program run can be recalled with `r2t2.print_references()`. 
