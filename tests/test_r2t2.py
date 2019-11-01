@@ -5,7 +5,8 @@ def fun_with_reference() -> None:
 
 
 def test_track_science():
-    from r2t2 import track_science, bibliography
+    from r2t2 import track_science
+    from r2t2.r2t2 import bibliography
 
     fun_with_reference()
     assert "My Awesome Book, by me." not in bibliography

@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 r2t2_classifiers = [
     "Development Status :: 3 - Alpha",
@@ -19,7 +19,7 @@ setup(
     url="https://github.com/ImperialCollegeLondon/R2T2",
     tests_require=tests_require,
     extras_require={"dev": tests_require + precommit},
-    py_modules=["r2t2"],
+    packages=find_packages("."),
     description="Research references tracking tool",
     license="MIT",
     classifiers=r2t2_classifiers,
