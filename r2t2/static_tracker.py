@@ -1,7 +1,6 @@
 from pathlib import Path
 from collections import OrderedDict
 import re
-from inspect import getmodulename
 from typing import Union
 import os
 
@@ -30,7 +29,7 @@ def locate_references(path: Union[Path, str]) -> OrderedDict:
         with open(filename, "r") as f:
             for num, line in enumerate(f):
                 if "science_reference(" in line:
-                    ref[filename].append([num])
+                    ref[filename].append([num + 1])
 
                 code_str.append(line.strip())
 
@@ -42,8 +41,7 @@ def locate_references(path: Union[Path, str]) -> OrderedDict:
                 continue
             ref[filename][i].extend(args.findall(ref_raw))
 
-        if len(ref[filename]) <= 1:
-            del ref[filename]
+        ref[filename] = [p for p in ref[filename] if len(p) == 3]
 
     return ref
 
@@ -51,21 +49,21 @@ def locate_references(path: Union[Path, str]) -> OrderedDict:
 def to_markdown(references: OrderedDict, mdfile: Union[Path, str]) -> None:
     """Converts the references dictionary into a markdown file."""
     template = (
-        "{id}. [{module}]({filename}) - Line={line}  \n"
-        "\tShort purpose: {short}  \n"
-        "\tReference: {reference}  \n\n"
+        "{id}. [{target}]({filename}) - Line={line}  \n"
+        "\t**Short purpose:** {short}  \n"
+        "\t**Reference:** {reference}  \n\n"
     )
 
     id = 1
+    root = Path(mdfile).parent
     with open(mdfile, mode="w") as f:
         for path, refs in references.items():
-            module = getmodulename(path)
-            filename = os.path.relpath(path, mdfile)
+            filename = os.path.relpath(path, root)
             for i, ref in enumerate(refs):
                 f.write(
                     template.format(
                         id=id,
-                        module=module,
+                        target=filename.replace("__", r"\_\_"),
                         filename=filename,
                         line=ref[0],
                         short=ref[1],
