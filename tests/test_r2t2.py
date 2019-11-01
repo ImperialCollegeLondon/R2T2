@@ -2,10 +2,14 @@ def fun_with_reference() -> None:
     from r2t2 import science_reference
 
     science_reference("doing something smart", "My Awesome Book, by me.")
+    science_reference(
+        "doing something smart in two lines", "Another Awesome Book, by me, 2019"
+    )
 
 
 def test_track_science():
-    from r2t2 import track_science, bibliography
+    from r2t2 import track_science
+    from r2t2.r2t2 import bibliography
 
     fun_with_reference()
     assert "My Awesome Book, by me." not in bibliography
