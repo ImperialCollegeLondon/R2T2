@@ -27,6 +27,6 @@ steps:
       pip install bump twine
       bump
       python setup.py sdist
-      python -m twine upload -u __token__ -p $(TWINE_PASSWORD) dist/*
+      python -m twine upload -u __token__ -p $(TWINE_PASSWORD) --skip-existing dist/*
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     displayName: "Deploy to PyPI"
