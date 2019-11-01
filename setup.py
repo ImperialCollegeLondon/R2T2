@@ -13,7 +13,7 @@ precommit = ["pre-commit"]
 
 setup(
     name="R2T2",
-    version=0.1,
+    version="0.1.0",
     author="Research Computing Service, Imperial College London",
     author_email="rcs-support@imperial.ac.uk",
     url="https://github.com/ImperialCollegeLondon/R2T2",
