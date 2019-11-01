@@ -24,13 +24,35 @@ science_reference(short_purpose="Original implementation of R2T2",
                             "http://doi.org/10.5281/zenodo.1185316")
 ```
 
-Which markers were passed in a particular program run can be recalled with `r2t2.print_references()`. 
+There are two methods of using this information:
 
-## Next steps
+Which markers were passed in a particular program run can be recalled with `r2t2.print_references()`. This includes recursively markers passed in any dependency used by the program.
 
-*R2T2* was designed initially to find out the scientific references that a given script using [Solcore](https://github.com/qpv-research-group/solcore5) was benefiting from. While useful, this is somewhat restrictive.
+Alternatively, *R2T2* can be used to provide a list of all references that a given package is based on (i.e. ALL the `science_reference` markers it contains) and not just those crossed by a particular run of a script using the package. This method is the most useful one to fulfill the aims of *R2T2*described above
 
-The immediate goal for *R2T2* is to be able to provide a list of all references that a given package is based on (i.e. ALL the `science_reference` markers it contains) and not just those crossed by a particular run of a script using the package. 
+For using this method, simply run in the terminal:
+
+```bash 
+$ python -m r2t2
+```
+
+which will scan all the python files recursively starting in the current directory and write the results in `references.md`. To have more control on what is scanned and where the output is written:
+
+```bash 
+$ python -m r2t2 -i some/subdirectory/or/file -o docs/references.md
+```
+
+The contents of the output file will be organised by module and contain the line where the marker was found, the short purpose and the reference itself:
+
+```markdown
+1. [test_r2t2](tests/test_r2t2.py) - Line=3  
+	Short purpose: doing something smart  
+	Reference: My Awesome Book, by me.  
+
+2. [test_r2t2](tests/test_r2t2.py) - Line=4  
+	Short purpose: doing something smart in two lines  
+	Reference: Another Awesome Book, by me, 2019  
+```
 
 ## Prior art
 

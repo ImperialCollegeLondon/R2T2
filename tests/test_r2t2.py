@@ -2,6 +2,9 @@ def fun_with_reference() -> None:
     from r2t2 import science_reference
 
     science_reference("doing something smart", "My Awesome Book, by me.")
+    science_reference(
+        "doing something smart in two lines", "Another Awesome Book, by me, 2019"
+    )
 
 
 def test_track_science():
