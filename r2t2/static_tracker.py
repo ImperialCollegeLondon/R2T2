@@ -19,7 +19,7 @@ def locate_references(path: Union[Path, str]) -> OrderedDict:
     filenames = sorted(Path(path).rglob("*.py"))
 
     ref: OrderedDict = OrderedDict()
-    sci_ref = re.compile(r"science_reference\((.*?)\)")
+    sci_ref = re.compile(r"science_reference\(\"(.*?)\",\)")
     args = re.compile(r"\"(.*?)\"")
 
     for filename in filenames:
@@ -33,13 +33,13 @@ def locate_references(path: Union[Path, str]) -> OrderedDict:
 
                 code_str.append(line.strip())
 
-            single = "".join(code_str)
+            single = "".join(code_str).replace('""', "")
 
         results = sci_ref.findall(single)
         for i, ref_raw in enumerate(results):
             if '"' not in ref_raw:
                 continue
-            ref[filename][i].extend(args.findall(ref_raw))
+            ref[filename][i].extend(args.findall('"' + ref_raw + '"'))
 
         ref[filename] = [p for p in ref[filename] if len(p) == 3]
 
