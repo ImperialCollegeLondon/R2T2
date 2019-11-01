@@ -22,3 +22,11 @@ steps:
   - script: |
       pytest
     displayName: "Test"
+
+  - script: |
+      pip install bump twine
+      bump
+      python setup.py sdist
+      python -m twine upload -u __token__ -p $(TWINE_PASSWORD) dist/*
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    displayName: "Deploy to PyPI"
