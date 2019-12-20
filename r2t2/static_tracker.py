@@ -71,11 +71,3 @@ def to_markdown(references: OrderedDict, mdfile: Union[Path, str]) -> None:
                     )
                 )
                 id += 1
-
-
-if __name__ == "__main__":
-    path = Path("/Users/dalonsoa/Documents/Projects/R2Tracker/R2T2/")
-    mdfile = Path("references.md")
-
-    data = locate_references(path)
-    to_markdown(data, mdfile)
