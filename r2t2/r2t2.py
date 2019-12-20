@@ -53,16 +53,10 @@ def science_reference(short_purpose: str, reference: str) -> None:
 
 
 def print_references() -> None:
-    """ recall the science_reference markers passed, print out the referenes."""
+    """ recall the science_reference markers passed, print out the references."""
     global bibliography, bibliography_id, science_tracking, track_each_reference_call
 
     "List of references encountered while executing"
-    if not track_each_reference_call:
-        print(
-            "showing first call only - override with"
-            "solcore.track_science(track_each_call=True)"
-        )
-
     for record, purpose, index in science_tracking:
         print("[{}] {} - {}".format(index, purpose, record))
     print()

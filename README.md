@@ -26,7 +26,20 @@ science_reference(short_purpose="Original implementation of R2T2",
 
 There are two methods of using this information:
 
-Which markers were passed in a particular program run can be recalled with `r2t2.print_references()`. This includes recursively markers passed in any dependency used by the program.
+### Runtime tracker
+
+Which markers were passed when running a particular script `my_script.py` can be recalled with:
+ 
+ ```bash 
+$ python -m r2t2 my_script.py
+```
+ 
+This prints a list of markers passed in the script run and recursively in any dependency used by the program. Input arguments for the script can be added after its name.
+
+ ```bash 
+$ python -m r2t2 my_script.py arg1 arg2
+```
+### Static tracker
 
 Alternatively, *R2T2* can be used to provide a list of all references that a given package is based on (i.e. ALL the `science_reference` markers it contains) and not just those crossed by a particular run of a script using the package. This method is the most useful one to fulfill the aims of *R2T2*described above
 
@@ -36,10 +49,16 @@ For using this method, simply run in the terminal:
 $ python -m r2t2
 ```
 
-which will scan all the python files recursively starting in the current directory and write the results in `references.md`. To have more control on what is scanned and where the output is written:
+which will scan all the python files recursively starting in the current directory and writing the results in `references.md`. To analyse a single file, use the flag `-s` (from "static") to prevent r2t2 to treat it as a script to run:
+
+ ```bash 
+$ python -m r2t2 -s my_script.py
+```
+ 
+To have more control on what is scanned and where the output is written:
 
 ```bash 
-$ python -m r2t2 -i some/subdirectory/or/file -o docs/references.md
+$ python -m r2t2 -o docs/references.md some/subdirectory 
 ```
 
 The contents of the output file will be organised by module and contain the line where the marker was found, the short purpose and the reference itself:
