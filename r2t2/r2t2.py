@@ -1,18 +1,58 @@
 import inspect
+import wrapt
+from typing import NamedTuple, List
 
-bibliography: list = []
-bibliography_id: list = []
-science_tracking: list = []
-track_science_references: bool = False
-track_each_reference_call: bool = False
+
+class FunctionReference(NamedTuple):
+    name: str
+    line: int
+    source: str
+    short_purpose: List[str] = []
+    references: List[str] = []
+
+
+class Biblio(dict):
+    track_references: bool = False
+
+    def __str__(self):
+        index = 1
+        output = ""
+        for record in self.values():
+            output += f"Referenced in: {record.name}"
+            output += f"\nSource file: {record.source}"
+            output += f"\nLine: {record.line}\n"
+            for short, ref in zip(record.short_purpose, record.references):
+                output += f"[{index}] {short} - {ref}"
+                index += 1
+            output += "\n"
+
+        return output
+
+    @property
+    def references(self):
+        """Return a list of unique references."""
+        output = []
+        for record in self.values():
+            output = output + [ref for ref in record.references if ref not in output]
+
+        return output
+
+
+BIBLIOGRAPHY: Biblio = Biblio()
+
+
+def tracking(enabled=True):
+    """Enable the tracking of references."""
+    global BIBLIOGRAPHY
+    BIBLIOGRAPHY.track_references = enabled
 
 
 def hexID(obj: str) -> str:
     return "{}".format(id(obj))
 
 
-def science_reference(short_purpose: str, reference: str) -> None:
-    """Marker acting as a reference for the origin of specific information
+def insert_reference(*, short_purpose: str, reference: str):
+    """Decorator to link a reference to a function or method.
 
     Acts as a marker in code where particular alogrithms/data/... originates.
     General execution of code silently passes these markers, but remembers how and where
@@ -23,50 +63,25 @@ def science_reference(short_purpose: str, reference: str) -> None:
     short_purpose: Identify the thing being referenced (string)
     reference: The reference itself, in any sensible format.
     """
-    global bibliography, bibliography_id, science_tracking, track_science_references
-    if not track_science_references:
-        return
-    stack = inspect.stack()
-    frame, path, line, function, context, index = stack[1]
-    del stack
 
-    arguments = inspect.formatargvalues(*inspect.getargvalues(frame))
+    @wrapt.decorator(enabled=lambda: BIBLIOGRAPHY.track_references)
+    def wrapper(wrapped, instance, args, kwargs):
+        identifier = f"{wrapped.__name__} [{hexID(wrapped)}]"
 
-    availableObjects = {}
-    availableObjects.update(frame.f_globals)
-    availableObjects.update(frame.f_locals)
-    del frame
+        if (
+            identifier in BIBLIOGRAPHY
+            and reference in BIBLIOGRAPHY[identifier].references
+        ):
+            return wrapped(*args, **kwargs)
 
-    func_id = hexID(availableObjects[function])
-    identifier = "{} [{}]".format(function, func_id)
-    call_record = "{}{}".format(function, arguments)
+        if identifier not in BIBLIOGRAPHY:
+            source = inspect.getsourcefile(wrapped)
+            line = inspect.getsourcelines(wrapped)[1]
+            BIBLIOGRAPHY[identifier] = FunctionReference(wrapped.__name__, line, source)
 
-    add_anyway = False
-    if identifier not in bibliography_id:
-        bibliography_id.append(identifier)
-        bibliography.append(reference)
-        add_anyway = True
-    if track_each_reference_call or add_anyway:
-        science_tracking.append(
-            (call_record, short_purpose, bibliography_id.index(identifier) + 1)
-        )
+        BIBLIOGRAPHY[identifier].short_purpose.append(short_purpose)
+        BIBLIOGRAPHY[identifier].references.append(reference)
 
+        return wrapped(*args, **kwargs)
 
-def print_references() -> None:
-    """ recall the science_reference markers passed, print out the references."""
-    global bibliography, bibliography_id, science_tracking, track_each_reference_call
-
-    "List of references encountered while executing"
-    for record, purpose, index in science_tracking:
-        print("[{}] {} - {}".format(index, purpose, record))
-    print()
-    for i, b in enumerate(bibliography):
-        print("[{}] - {}".format(i + 1, b))
-
-
-def track_science(track_each_call: bool = False):
-    """configure science references -- determine whether or not each call separately or
-    only the first for each reference."""
-    global track_science_references, track_each_reference_call
-    track_science_references = True
-    track_each_reference_call = track_each_call
+    return wrapper

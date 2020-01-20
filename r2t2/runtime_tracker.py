@@ -1,10 +1,10 @@
-from .r2t2 import track_science, print_references
+from .r2t2 import tracking, BIBLIOGRAPHY
 import sys
 import os
 
 
 def runtime_tracker(script, args):
-    track_science()
+    tracking()
 
     sys.argv = [script, *args]
     sys.path[0] = os.path.dirname(script)
@@ -29,4 +29,4 @@ def runtime_tracker(script, args):
     except SystemExit:
         pass
 
-    print_references()
+    print(BIBLIOGRAPHY)

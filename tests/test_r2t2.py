@@ -1,30 +1,43 @@
-def fun_with_reference() -> None:
-    from r2t2 import science_reference
+def decorated_function():
+    from r2t2 import insert_reference
 
-    science_reference("doing something smart", "My Awesome Book, by me.")
-    science_reference(
-        "doing something smart in two lines", "Another Awesome Book, by me, 2019"
+    @insert_reference(
+        short_purpose="Roasted chicken recipe", reference="Great British Roasts, 2019"
     )
+    def roasted_chicken(ingredients=None):
+        pass
 
-
-def test_track_science():
-    from r2t2 import track_science
-    from r2t2.r2t2 import bibliography
-
-    fun_with_reference()
-    assert "My Awesome Book, by me." not in bibliography
-
-    track_science()
-    fun_with_reference()
-    assert "My Awesome Book, by me." in bibliography
+    return roasted_chicken
 
 
 def test_print_references(capsys):
-    from r2t2 import track_science, print_references
+    from r2t2 import tracking, BIBLIOGRAPHY
 
-    track_science()
-    fun_with_reference()
-    print_references()
+    tracking()
+    chicken = decorated_function()
+    chicken("Chicken")
+    print(BIBLIOGRAPHY)
     captured = capsys.readouterr()
 
-    assert "[1] doing something smart - fun_with_reference()" in captured.out
+    assert "Great British Roasts, 2019" in captured.out
+
+    BIBLIOGRAPHY.clear()
+    tracking(False)
+
+
+def test_insert_reference():
+    from r2t2 import tracking, BIBLIOGRAPHY
+
+    chicken = decorated_function()
+    assert "Great British Roasts, 2019" not in BIBLIOGRAPHY.references
+    chicken()
+    assert "Great British Roasts, 2019" not in BIBLIOGRAPHY.references
+
+    tracking()
+    chicken("Chicken")
+    assert "Great British Roasts, 2019" in BIBLIOGRAPHY.references
+
+    print(BIBLIOGRAPHY)
+
+    BIBLIOGRAPHY.clear()
+    tracking(False)
