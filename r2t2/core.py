@@ -1,6 +1,7 @@
 import inspect
 import wrapt
 from typing import NamedTuple, List
+from functools import reduce
 
 
 class FunctionReference(NamedTuple):
@@ -15,18 +16,18 @@ class Biblio(dict):
     track_references: bool = False
 
     def __str__(self):
-        index = 1
-        output = ""
-        for record in self.values():
-            output += f"Referenced in: {record.name}"
-            output += f"\nSource file: {record.source}"
-            output += f"\nLine: {record.line}\n"
+        def add_record(out, record):
+            index = 1
+            out += f"Referenced in: {record.name}"
+            out += f"\nSource file: {record.source}"
+            out += f"\nLine: {record.line}\n"
             for short, ref in zip(record.short_purpose, record.references):
-                output += f"[{index}] {short} - {ref}"
+                out += f"\t[{index}] {short} - {ref}\n"
                 index += 1
-            output += "\n"
+            out += "\n"
+            return out
 
-        return output
+        return reduce(add_record, self.values(), "")
 
     @property
     def references(self):
@@ -37,21 +38,15 @@ class Biblio(dict):
 
         return output
 
+    def tracking(self, enabled=True):
+        """Enable the tracking of references."""
+        self.track_references = enabled
+
 
 BIBLIOGRAPHY: Biblio = Biblio()
 
 
-def tracking(enabled=True):
-    """Enable the tracking of references."""
-    global BIBLIOGRAPHY
-    BIBLIOGRAPHY.track_references = enabled
-
-
-def hexID(obj: str) -> str:
-    return "{}".format(id(obj))
-
-
-def insert_reference(*, short_purpose: str, reference: str):
+def add_reference(*, short_purpose: str, reference: str):
     """Decorator to link a reference to a function or method.
 
     Acts as a marker in code where particular alogrithms/data/... originates.
@@ -66,7 +61,9 @@ def insert_reference(*, short_purpose: str, reference: str):
 
     @wrapt.decorator(enabled=lambda: BIBLIOGRAPHY.track_references)
     def wrapper(wrapped, instance, args, kwargs):
-        identifier = f"{wrapped.__name__} [{hexID(wrapped)}]"
+        source = inspect.getsourcefile(wrapped)
+        line = inspect.getsourcelines(wrapped)[1]
+        identifier = f"{source}:{line}"
 
         if (
             identifier in BIBLIOGRAPHY
@@ -75,8 +72,6 @@ def insert_reference(*, short_purpose: str, reference: str):
             return wrapped(*args, **kwargs)
 
         if identifier not in BIBLIOGRAPHY:
-            source = inspect.getsourcefile(wrapped)
-            line = inspect.getsourcelines(wrapped)[1]
             BIBLIOGRAPHY[identifier] = FunctionReference(wrapped.__name__, line, source)
 
         BIBLIOGRAPHY[identifier].short_purpose.append(short_purpose)
