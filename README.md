@@ -10,6 +10,14 @@ Some of the benefits of using *R2T2* in your project are:
  the specific code that implements it.
 - Facilitate code maintenance and improve its sustainability.
 
+## Installation
+
+R2T2 is available in PyPI, so to install it just run:
+
+```bash
+pip install R2T2
+```
+
 ## How it works
 
 *R2T2* works by decorating those functions, classes or methods where
