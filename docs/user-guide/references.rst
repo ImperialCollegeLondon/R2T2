@@ -27,7 +27,7 @@ In Method
 Two or More References
 ----------------------
 
-..  literalinclude:: ../examples/mutiple.py
+..  literalinclude:: ../examples/multiple.py
     :language: python
 
 As Annotation
