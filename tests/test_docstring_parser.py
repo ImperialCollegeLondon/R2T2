@@ -1,4 +1,9 @@
-from r2t2.docstring_parser import iter_extract_docstring_from_lines
+from pathlib import Path
+
+from r2t2.docstring_parser import (
+    iter_extract_docstring_from_lines,
+    iter_extract_docstring_from_file
+)
 
 
 DOC_STRING_LINE_1 = 'the docstring line 1'
@@ -35,6 +40,22 @@ class TestIterExtractDocstringFromLines:
             '    """',
             '    pass'
         ])) == ['\n'.join([
+            DOC_STRING_LINE_1,
+            DOC_STRING_LINE_2
+        ])]
+
+
+class TestIterExtractDocstringFromFile:
+    def test_should_extract_module_level_docstring_using_double_quotes(
+            self, temp_dir: Path):
+        file_path = temp_dir / 'test.py'
+        file_path.write_text('\n'.join([
+            '"""',
+            DOC_STRING_LINE_1,
+            DOC_STRING_LINE_2,
+            '"""'
+        ]))
+        assert list(iter_extract_docstring_from_file(file_path)) == ['\n'.join([
             DOC_STRING_LINE_1,
             DOC_STRING_LINE_2
         ])]

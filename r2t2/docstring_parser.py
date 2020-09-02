@@ -1,14 +1,14 @@
 import ast
 import logging
-
-from typing import Iterable
+from pathlib import Path
+from typing import Iterable, Union
 
 
 LOGGER = logging.getLogger(__name__)
 
 
-def iter_extract_docstring_from_lines(lines: Iterable[str]) -> Iterable[str]:
-    tree = ast.parse('\n'.join(lines))
+def iter_extract_docstring_from_text(text: str) -> Iterable[str]:
+    tree = ast.parse(text)
     for node in ast.walk(tree):
         LOGGER.debug('node: %r', node)
         try:
@@ -19,3 +19,11 @@ def iter_extract_docstring_from_lines(lines: Iterable[str]) -> Iterable[str]:
         except TypeError:
             # node type may not be able to have docstrings
             pass
+
+
+def iter_extract_docstring_from_lines(lines: Iterable[str]) -> Iterable[str]:
+    return iter_extract_docstring_from_text('\n'.join(lines))
+
+
+def iter_extract_docstring_from_file(path: Union[str, Path]) -> Iterable[str]:
+    return iter_extract_docstring_from_text(Path(path).read_text())
