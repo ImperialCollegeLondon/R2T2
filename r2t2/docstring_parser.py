@@ -8,7 +8,6 @@ LOGGER = logging.getLogger(__name__)
 
 
 def iter_extract_docstring_from_lines(lines: Iterable[str]) -> Iterable[str]:
-    current_docstring_lines = []
     tree = ast.parse('\n'.join(lines))
     for node in ast.walk(tree):
         LOGGER.debug('node: %r', node)
