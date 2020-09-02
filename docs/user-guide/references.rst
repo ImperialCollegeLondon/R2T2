@@ -30,14 +30,8 @@ Two or More References
 ..  literalinclude:: ../examples/multiple.py
     :language: python
 
-As Annotation
--------------
-
-..  literalinclude:: ../examples/reference-annotation.py
-    :language: python
-
 As DocString
 ------------
 
-..  literalinclude:: ../examples/reference-docstring.py
+..  literalinclude:: ../examples/docstring.py
     :language: python
