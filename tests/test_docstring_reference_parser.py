@@ -2,6 +2,7 @@ from pathlib import Path
 
 from r2t2.core import Biblio
 from r2t2.docstring_reference_parser import (
+    DOCSTRING_SHORT_PURPOSE,
     parse_and_add_docstring_references_from_files
 )
 
@@ -35,3 +36,4 @@ class TestParseAndAddDocstringReferencesFromFiles:
         assert function_reference.source == str(file_path)
         assert function_reference.line == 1
         assert function_reference.references == [DOI_1]
+        assert function_reference.short_purpose == [DOCSTRING_SHORT_PURPOSE]

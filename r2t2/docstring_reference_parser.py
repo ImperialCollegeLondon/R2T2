@@ -14,6 +14,9 @@ from r2t2.docstring_parser import (
 LOGGER = logging.getLogger(__name__)
 
 
+DOCSTRING_SHORT_PURPOSE = 'automatically parsed from docstring'
+
+
 def expand_file_list(path: Union[Path, str]) -> List[Path]:
     if os.path.isdir(path):
         return sorted(Path(path).rglob("*.py"))
@@ -31,11 +34,13 @@ def get_function_reference_identifier(function_reference: FunctionReference) -> 
 def get_function_reference_from_docstring(
     docstring: CodeDocumentComment
 ) -> FunctionReference:
+    references = list(iter_parse_plain_text_references(docstring.text))
     return FunctionReference(
         source=docstring.filename or '',
         line=docstring.lineno or 0,
         name=docstring.name or '',
-        references=list(iter_parse_plain_text_references(docstring.text))
+        references=references,
+        short_purpose=[DOCSTRING_SHORT_PURPOSE] * len(references)
     )
 
 
