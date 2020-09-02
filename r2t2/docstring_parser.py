@@ -1,10 +1,16 @@
 import ast
 import logging
+import json
 from pathlib import Path
 from typing import Iterable, NamedTuple, Union, Optional
 
 
 LOGGER = logging.getLogger(__name__)
+FAKE_FUNC = """def cell_{}():
+    \"\"\"
+    {}
+    \"\"\"
+"""
 
 
 class CodeDocumentComment(NamedTuple):
@@ -44,10 +50,17 @@ def iter_extract_docstring_from_lines(
 def iter_extract_docstring_from_file(
     path: Union[str, Path]
 ) -> Iterable[CodeDocumentComment]:
-    return iter_extract_docstring_from_text(
-        Path(path).read_text(),
-        filename=str(path)
-    )
+    txt = Path(path).read_text()
+    if path.suffix == ".ipynb":
+        cells = json.loads(txt)["cells"]
+        txt = []
+        # extract the markdown text from all markdown cells, and make each of
+        # them look like the docstring of a separate function
+        for i, c in enumerate(cells):
+            if c["cell_type"] == "markdown":
+                txt.append(FAKE_FUNC.format(i, "    ".join(c["source"])))
+        txt = "\n".join(txt)
+    return iter_extract_docstring_from_text(txt, filename=str(path))
 
 
 def iter_extract_docstring_from_files(
