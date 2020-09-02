@@ -6,10 +6,3 @@ def my_great_function():
     http://doi.org/10.5281/zenodo.1185316
     """
     pass
-
-
-def my_great_function_2():
-    """
-    See :cite:`1987:nelson` for an introduction to non-standard analysis.
-    """
-    pass
