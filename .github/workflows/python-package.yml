@@ -38,3 +38,10 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
+    - name: Codecov
+      if: success() && matrix.os == 'ubuntu-latest'
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      run: |
+        pip install codecov
+        codecov
