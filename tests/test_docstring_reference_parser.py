@@ -115,7 +115,7 @@ class TestParseAndAddDocstringReferencesFromFiles:
                 name=names[1],
                 line_num='n/a'
             ),
-                                ]
+        ]
         assert biblio.keys() == set(expected_identifiers)
         for i, identifier in enumerate(expected_identifiers):
             function_reference = biblio[identifier]
