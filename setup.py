@@ -8,7 +8,7 @@ r2t2_classifiers = [
     "Topic :: Utilities",
 ]
 
-tests_require = ["pytest", "pytest-flake8", "pytest-mypy"]
+tests_require = ["pytest", "pytest-flake8", "pytest-mypy", "pytest-cov"]
 precommit = ["pre-commit"]
 
 setup(
