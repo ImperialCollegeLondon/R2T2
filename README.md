@@ -1,6 +1,6 @@
 # R2T2 - Research References Tracking Tool
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 The *Research References Tracking Tool (R2T2)* aims to fill the last remaining gap into the circle of open research, enabling not just publications to cite data or software (still a work in progress), but also the latter to cite the research articles containing the theory it codes, or the datasets it uses.
@@ -120,6 +120,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://www.imperial.ac.uk/admin-services/ict/self-service/research-support/rcs/research-software-engineering/"><img src="https://avatars1.githubusercontent.com/u/6095790?v=4" width="100px;" alt=""/><br /><sub><b>Diego</b></sub></a><br /><a href="https://github.com/ImperialCollegeLondon/R2T2/commits?author=dalonsoa" title="Code">💻</a> <a href="https://github.com/ImperialCollegeLondon/R2T2/commits?author=dalonsoa" title="Documentation">📖</a> <a href="https://github.com/ImperialCollegeLondon/R2T2/commits?author=dalonsoa" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://www.imperial.ac.uk/ict/rcs"><img src="https://avatars3.githubusercontent.com/u/1724545?v=4" width="100px;" alt=""/><br /><sub><b>Mark Woodbridge</b></sub></a><br /><a href="#infra-mwoodbri" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
   </tr>
 </table>
 
