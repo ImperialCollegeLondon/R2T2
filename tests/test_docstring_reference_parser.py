@@ -124,4 +124,5 @@ class TestParseAndAddDocstringReferencesFromFiles:
             assert function_reference.line == 'n/a'
             assert function_reference.references == [DOI_URL_HTTPS_PREFIX + d
                                                      for d in dois[i]]
-            assert function_reference.short_purpose == [NOTEBOOK_SHORT_PURPOSE] * len(dois[i])
+            assert function_reference.short_purpose == ([NOTEBOOK_SHORT_PURPOSE]
+                                                        * len(dois[i]))
