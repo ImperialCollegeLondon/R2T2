@@ -1,6 +1,7 @@
 # R2T2 - Research References Tracking Tool
 [![codecov](https://codecov.io/gh/ImperialCollegeLondon/R2T2/branch/develop/graph/badge.svg)](https://codecov.io/gh/ImperialCollegeLondon/R2T2)
 [![Python package](https://github.com/ImperialCollegeLondon/R2T2/workflows/Python%20package/badge.svg)](https://github.com/ImperialCollegeLondon/R2T2/actions?query=workflow%3A%22Python+package%22)
+[![Documentation Status](https://readthedocs.org/projects/r2t2/badge/?version=latest)](https://r2t2.readthedocs.io/en/latest/?badge=latest)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
@@ -15,6 +16,8 @@ Some of the benefits of using *R2T2* in your project are:
 - Promote the transparency of the code: bi-directional link between theory and
  the specific code that implements it.
 - Facilitate code maintenance and improve its sustainability.
+
+Further information is available in our [documentation](https://r2t2.readthedocs.io/en/latest/#) and [examples](docs/examples).
 
 ## Installation
 
