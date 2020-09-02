@@ -119,7 +119,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://www.imperial.ac.uk/admin-services/ict/self-service/research-support/rcs/research-software-engineering/"><img src="https://avatars1.githubusercontent.com/u/6095790?v=4" width="100px;" alt=""/><br /><sub><b>Diego</b></sub></a><br /><a href="https://github.com/ImperialCollegeLondon/R2T2/commits?author=dalonsoa" title="Code">💻</a> <a href="https://github.com/ImperialCollegeLondon/R2T2/commits?author=dalonsoa" title="Documentation">📖</a> <a href="https://github.com/ImperialCollegeLondon/R2T2/commits?author=dalonsoa" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://www.imperial.ac.uk/admin-services/ict/self-service/research-support/rcs/research-software-engineering/"><img src="https://avatars1.githubusercontent.com/u/6095790?v=4" width="100px;" alt=""/><br /><sub><b>Diego</b></sub></a><br /><a href="https://github.com/ImperialCollegeLondon/R2T2/commits?author=dalonsoa" title="Code">💻</a> <a href="https://github.com/ImperialCollegeLondon/R2T2/commits?author=dalonsoa" title="Documentation">📖</a> <a href="https://github.com/ImperialCollegeLondon/R2T2/commits?author=dalonsoa" title="Tests">⚠️</a> <a href="#ideas-dalonsoa" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="https://www.imperial.ac.uk/ict/rcs"><img src="https://avatars3.githubusercontent.com/u/1724545?v=4" width="100px;" alt=""/><br /><sub><b>Mark Woodbridge</b></sub></a><br /><a href="#infra-mwoodbri" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
   </tr>
 </table>
