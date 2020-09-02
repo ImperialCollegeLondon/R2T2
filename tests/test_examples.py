@@ -62,9 +62,7 @@ def test_notebook(path, executable="python"):
     Tests a single notebook, exists if it doesn't finish.
     """
     import nbconvert
-    import pybamm
 
-    b = pybamm.Timer()
     print("Test " + path + " ... ", end="")
     sys.stdout.flush()
 
@@ -115,7 +113,7 @@ def test_notebook(path, executable="python"):
         sys.exit(1)
 
     # Sucessfully run
-    print("ok (" + b.format() + ")")
+    print("ok")
     return True
 
 
