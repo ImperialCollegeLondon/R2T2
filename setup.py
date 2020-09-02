@@ -17,7 +17,7 @@ setup(
     author="Research Computing Service, Imperial College London",
     author_email="rcs-support@imperial.ac.uk",
     url="https://github.com/ImperialCollegeLondon/R2T2",
-    install_requires=["wrapt"],
+    install_requires=["wrapt", "bibtexparser"],
     tests_require=tests_require,
     extras_require={"dev": tests_require + precommit},
     packages=find_packages("."),
