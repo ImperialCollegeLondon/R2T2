@@ -1,7 +1,22 @@
-from pytest import fixture
+import pytest
 
 
-@fixture
+@pytest.fixture
+def bibliography():
+    from r2t2 import BIBLIOGRAPHY
+
+    yield BIBLIOGRAPHY
+    BIBLIOGRAPHY.clear()
+
+
+@pytest.fixture
+def bib_with_tracking(bibliography):
+    bibliography.tracking()
+    yield bibliography
+    bibliography.tracking(False)
+
+
+@pytest.fixture
 def decorated_function():
     from r2t2 import add_reference
 
@@ -14,7 +29,7 @@ def decorated_function():
     return roasted_chicken
 
 
-@fixture
+@pytest.fixture
 def decorated_with_doi():
     from r2t2 import add_reference
 
@@ -25,7 +40,7 @@ def decorated_with_doi():
     return a_great_function
 
 
-@fixture
+@pytest.fixture
 def decorated_with_bibtex():
     from r2t2 import add_reference
 
@@ -34,4 +49,3 @@ def decorated_with_bibtex():
         pass
 
     return a_great_function
-
