@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 import re
 
 
-PROCESSORS: Dict[str, Callable]
+PROCESSORS: Dict[str, Callable] = {}
 """Dictionary of available processors."""
 
 
