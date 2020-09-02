@@ -73,13 +73,6 @@ class TestAddReference():
 
         assert "Great British Roasts, 2019" in captured.out
 
-    def test_add_reference_from_doi(self, decorated_with_doi):
-        from r2t2 import BIBLIOGRAPHY
-
-        BIBLIOGRAPHY.tracking()
-
+    def test_add_reference_from_doi(self, bib_with_tracking, decorated_with_doi):
         decorated_with_doi()
-        assert "https://doi.org/" in BIBLIOGRAPHY.references[-1]
-
-        BIBLIOGRAPHY.clear()
-        BIBLIOGRAPHY.tracking(False)
+        assert "https://doi.org/" in bib_with_tracking.references[-1]
