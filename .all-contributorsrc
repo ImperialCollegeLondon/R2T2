@@ -25,6 +25,15 @@
       "contributions": [
         "infra"
       ]
+    },
+    {
+      "login": "ChasNelson1990",
+      "name": "Chas Nelson",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/7795189?v=4",
+      "profile": "http://www.chasnelson.co.uk",
+      "contributions": [
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,
