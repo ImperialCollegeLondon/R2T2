@@ -1,12 +1,14 @@
 from r2t2.core import add_reference
 
 
-class TestAddReference():
+class TestAddReference:
     def test_does_not_track_by_default(self, bibliography, decorated_function):
         assert len(bibliography.references) == 0
         assert "Great British Roasts, 2019" not in bibliography.references
 
-    def test_does_not_track_by_default_when_called(self, bibliography, decorated_function):
+    def test_does_not_track_by_default_when_called(
+        self, bibliography, decorated_function
+    ):
         decorated_function()
         assert len(bibliography.references) == 0
         assert "Great British Roasts, 2019" not in bibliography.references
@@ -27,7 +29,9 @@ class TestAddReference():
         assert len(bib_with_tracking) == 0
         assert len(bib_with_tracking.references) == 0
 
-    def test_does_not_capture_when_not_called(self, bib_with_tracking, decorated_function):
+    def test_does_not_capture_when_not_called(
+        self, bib_with_tracking, decorated_function
+    ):
         assert "Great British Roasts, 2019" not in bib_with_tracking
 
     def test_works_with_two_functions(self, bib_with_tracking):
@@ -50,6 +54,7 @@ class TestAddReference():
         @add_reference(short_purpose="testing", reference="Reference 2")
         def my_func_1():
             pass
+
         my_func_1()
 
         assert "Reference 1" in bib_with_tracking.references
@@ -61,6 +66,7 @@ class TestAddReference():
         @add_reference(short_purpose="testing", reference="Reference 1")
         def my_func_2():
             pass
+
         my_func_2()
 
         assert "Reference 1" in bib_with_tracking.references

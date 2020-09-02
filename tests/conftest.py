@@ -4,6 +4,7 @@ import pytest
 @pytest.fixture
 def bibliography():
     from r2t2 import BIBLIOGRAPHY
+
     yield BIBLIOGRAPHY
     BIBLIOGRAPHY.clear()
 
