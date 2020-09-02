@@ -1,41 +1,39 @@
-def decorated_function():
-    from r2t2 import add_reference
-
-    @add_reference(
-        short_purpose="Roasted chicken recipe", reference="Great British Roasts, 2019"
-    )
-    def roasted_chicken(ingredients=None):
-        pass
-
-    return roasted_chicken
-
-
-def test_add_reference():
+def test_add_reference(decorated_function):
     from r2t2 import BIBLIOGRAPHY
 
-    chicken = decorated_function()
     assert "Great British Roasts, 2019" not in BIBLIOGRAPHY.references
-    chicken()
+    decorated_function()
     assert "Great British Roasts, 2019" not in BIBLIOGRAPHY.references
 
     BIBLIOGRAPHY.tracking()
-    chicken("Chicken")
+    decorated_function("Chicken")
     assert "Great British Roasts, 2019" in BIBLIOGRAPHY.references
 
     BIBLIOGRAPHY.clear()
     BIBLIOGRAPHY.tracking(False)
 
 
-def test_print_references(capsys):
+def test_print_references(capsys, decorated_function):
     from r2t2 import BIBLIOGRAPHY
 
     BIBLIOGRAPHY.tracking()
-    chicken = decorated_function()
-    chicken("Chicken")
+    decorated_function("Chicken")
     print(BIBLIOGRAPHY)
     captured = capsys.readouterr()
 
     assert "Great British Roasts, 2019" in captured.out
+
+    BIBLIOGRAPHY.clear()
+    BIBLIOGRAPHY.tracking(False)
+
+
+def test_add_reference_from_doi(decorated_with_doi):
+    from r2t2 import BIBLIOGRAPHY
+
+    BIBLIOGRAPHY.tracking()
+
+    decorated_with_doi()
+    assert "https://doi.org/" in BIBLIOGRAPHY.references[-1]
 
     BIBLIOGRAPHY.clear()
     BIBLIOGRAPHY.tracking(False)
