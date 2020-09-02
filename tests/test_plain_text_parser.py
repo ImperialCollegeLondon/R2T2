@@ -39,6 +39,11 @@ class TestParsePlainTextReferences:
             DOI_URL_HTTP_PREFIX + DOI_1
         ) == [DOI_URL_HTTPS_PREFIX + DOI_1]
 
+    def test_should_parse_single_sphinx_cite_reference(self):
+        assert parse_plain_text_references(
+            r'See :cite:`' + REF_NAME_1 + r'` for an introduction'
+        ) == [REF_NAME_1]
+
     def test_should_parse_single_latex_cite_reference(self):
         assert parse_plain_text_references(
             r'\\cite{' + REF_NAME_1 + r'}'
