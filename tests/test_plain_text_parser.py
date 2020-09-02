@@ -8,6 +8,9 @@ DOI_URL_HTTPS_PREFIX = 'https://doi.org/'
 
 DOI_1 = '10.1234/zenodo.1234567'
 
+REF_NAME_1 = 'Smith2001-1'
+REF_NAME_2 = 'Johnson2002-2'
+
 
 class TestParsePlainTextReferences:
     def test_should_return_empty_list_for_empty_string(self):
@@ -35,3 +38,8 @@ class TestParsePlainTextReferences:
         assert parse_plain_text_references(
             DOI_URL_HTTP_PREFIX + DOI_1
         ) == [DOI_URL_HTTPS_PREFIX + DOI_1]
+
+    def test_should_parse_single_latex_cite_reference(self):
+        assert parse_plain_text_references(
+            r'\\cite{' + REF_NAME_1 + r'}'
+        ) == [REF_NAME_1]
