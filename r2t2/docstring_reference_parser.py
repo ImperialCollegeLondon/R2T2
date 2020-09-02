@@ -50,7 +50,8 @@ def iter_parse_docstring_function_references_from_files(
     for docstring in iter_extract_docstring_from_files(filenames):
         function_reference = get_function_reference_from_docstring(docstring)
         identifier = get_function_reference_identifier(function_reference)
-        yield identifier, function_reference
+        if function_reference.references:
+            yield identifier, function_reference
 
 
 def parse_and_add_docstring_references_from_files(

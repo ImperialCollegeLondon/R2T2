@@ -37,3 +37,20 @@ class TestParseAndAddDocstringReferencesFromFiles:
         assert function_reference.line == 1
         assert function_reference.references == [DOI_1]
         assert function_reference.short_purpose == [DOCSTRING_SHORT_PURPOSE]
+
+    def test_should_not_add_function_reference_without_references(
+        self, temp_dir: Path
+    ):
+        file_path = temp_dir / 'test.py'
+        file_path.write_text('\n'.join([
+            'def some_function():'
+            '    """',
+            '    some docstring',
+            '    """'
+        ]))
+        biblio = Biblio()
+        parse_and_add_docstring_references_from_files(
+            [file_path],
+            biblio=biblio
+        )
+        assert not biblio
