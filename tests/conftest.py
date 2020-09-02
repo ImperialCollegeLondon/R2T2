@@ -1,11 +1,26 @@
 import logging
 from pathlib import Path
 
-from pytest import fixture
+import pytest
 from py._path.local import LocalPath
 
 
-@fixture
+@pytest.fixture
+def bibliography():
+    from r2t2 import BIBLIOGRAPHY
+
+    yield BIBLIOGRAPHY
+    BIBLIOGRAPHY.clear()
+
+
+@pytest.fixture
+def bib_with_tracking(bibliography):
+    bibliography.tracking()
+    yield bibliography
+    bibliography.tracking(False)
+
+
+@pytest.fixture
 def decorated_function():
     from r2t2 import add_reference
 
@@ -18,7 +33,7 @@ def decorated_function():
     return roasted_chicken
 
 
-@fixture
+@pytest.fixture
 def decorated_with_doi():
     from r2t2 import add_reference
 
@@ -29,13 +44,13 @@ def decorated_with_doi():
     return a_great_function
 
 
-@fixture(scope='session', autouse=True)
+@pytest.fixture(scope='session', autouse=True)
 def setup_logging():
     for name in {'r2t2', 'tests'}:
         logging.getLogger(name).setLevel('DEBUG')
 
 
-@fixture()
+@pytest.fixture()
 def temp_dir(tmpdir: LocalPath) -> Path:
     # maps the pytest "tmpdir" fixture to a regular pathlib Path type
     return Path(tmpdir)
