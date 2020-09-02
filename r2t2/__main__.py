@@ -6,6 +6,7 @@ from pathlib import Path
 from .static_parser import locate_references
 from .runtime_tracker import runtime_tracker
 from .writers import REGISTERED_WRITERS
+from .reference_processors import PROCESSORS
 
 parser = argparse.ArgumentParser()
 
@@ -36,6 +37,22 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    "-p",
+    "--processor",
+    default="plain",
+    type=str,
+    help=f"Processor for references. Default: plain. "
+    f"Valid options are: {','.join(list(PROCESSORS.keys()))}.",
+)
+
+parser.add_argument(
+    "-b",
+    "--bibtex",
+    type=str,
+    help="Bibtex file for processing references with bibtex.",
+)
+
+parser.add_argument(
     "target",
     default=".",
     nargs="?",
@@ -60,6 +77,22 @@ if args.format not in REGISTERED_WRITERS:
     )
     sys.exit()
 
+if args.processor is not None and args.processor not in PROCESSORS:
+    print(
+        f"ERROR: Unrecognized processor format '{args.processor}'. "
+        f"Valid options for -p are: {', '.join(list(PROCESSORS.keys()))}"
+    )
+    sys.exit()
+elif args.processor == "bibtex" and args.bibtex is None:
+    print(
+        "ERROR: Bibtex processor format selected but no file given. "
+        "Please provide a .bib file with the --bibtex (-b) argument."
+    )
+    processor_source = None  # TODO a better way to handle this?
+    sys.exit()
+else:
+    processor_source = args.bibtex
+
 if args.output is None:
     if os.path.isdir(args.target):
         output = Path(args.target) / "references"
@@ -76,4 +109,8 @@ if os.path.isdir(args.target) or args.static:
 else:
     runtime_tracker(args.target, args.args)
 
+if args.processor is not None:
+    pass
+    # this is not yet working
+    # PROCESSORS[args.processor](source=processor_source)
 REGISTERED_WRITERS[args.format](output)
