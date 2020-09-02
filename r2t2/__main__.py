@@ -47,6 +47,12 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    "--notebook",
+    action="store_true",
+    help="Parse markdown cells from Jupyter notebooks.",
+)
+
+parser.add_argument(
     "target",
     default=".",
     nargs="?",
@@ -84,7 +90,15 @@ else:
 
 if os.path.isdir(args.target) or args.static:
     locate_references(args.target)
+    if args.notebook:
+        if not args.target.endswith('.ipynb'):
+            raise Exception("If --notebook flag is passed, target must be a"
+                            " Jupyter notebook!")
     if args.docstring:
+        if not args.target.endswith('.py'):
+            raise Exception("If --docstring flag is passed, target must be a"
+                            " python script!")
+    if args.docstring or args.notebook:
         parse_and_add_docstring_references_from_files(
             expand_file_list(args.target)
         )
