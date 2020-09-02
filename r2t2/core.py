@@ -8,8 +8,8 @@ class FunctionReference(NamedTuple):
     name: str
     line: int
     source: str
-    short_purpose: List[str] = []
-    references: List[str] = []
+    short_purpose: List[str]
+    references: List[str]
 
 
 class Biblio(dict):
@@ -34,7 +34,7 @@ class Biblio(dict):
         """Return a list of unique references."""
         output = []
         for record in self.values():
-            output = output + [ref for ref in record.references if ref not in output]
+            output.extend(ref for ref in record.references if ref not in output)
 
         return output
 
@@ -93,7 +93,8 @@ def add_reference(
             return wrapped(*args, **kwargs)
 
         if identifier not in BIBLIOGRAPHY:
-            BIBLIOGRAPHY[identifier] = FunctionReference(wrapped.__name__, line, source)
+            BIBLIOGRAPHY[identifier] = FunctionReference(wrapped.__name__, line, source,
+                                                         [], [])
 
         BIBLIOGRAPHY[identifier].short_purpose.append(short_purpose)
         BIBLIOGRAPHY[identifier].references.append(ref)
