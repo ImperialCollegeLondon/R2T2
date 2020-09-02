@@ -2,7 +2,8 @@ from pathlib import Path
 
 from r2t2.docstring_parser import (
     iter_extract_docstring_from_lines,
-    iter_extract_docstring_from_file
+    iter_extract_docstring_from_file,
+    iter_extract_docstring_from_files
 )
 
 
@@ -55,7 +56,16 @@ class TestIterExtractDocstringFromFile:
             DOC_STRING_LINE_2,
             '"""'
         ]))
-        assert list(iter_extract_docstring_from_file(file_path)) == ['\n'.join([
+        expected_docstrings = ['\n'.join([
             DOC_STRING_LINE_1,
             DOC_STRING_LINE_2
         ])]
+        assert list(iter_extract_docstring_from_file(
+            str(file_path)
+        )) == expected_docstrings
+        assert list(iter_extract_docstring_from_file(
+            Path(file_path)
+        )) == expected_docstrings
+        assert list(iter_extract_docstring_from_files(
+            [str(file_path)]
+        )) == expected_docstrings

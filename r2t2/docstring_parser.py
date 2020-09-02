@@ -27,3 +27,8 @@ def iter_extract_docstring_from_lines(lines: Iterable[str]) -> Iterable[str]:
 
 def iter_extract_docstring_from_file(path: Union[str, Path]) -> Iterable[str]:
     return iter_extract_docstring_from_text(Path(path).read_text())
+
+
+def iter_extract_docstring_from_files(paths: Iterable[Union[str, Path]]) -> Iterable[str]:
+    for path in paths:
+        yield from iter_extract_docstring_from_file(path)
