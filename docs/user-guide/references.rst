@@ -30,8 +30,16 @@ Two or More References
 ..  literalinclude:: ../examples/multiple.py
     :language: python
 
-As DocString
+As Docstring
 ------------
 
-..  literalinclude:: ../examples/docstring.py
+R2T2 will parse the docstring searching for the DOI.
+
+..  literalinclude:: ../examples/docstring_doi.py
     :language: python
+
+R2T2 will also search for Sphinx's ``cite`` directive.
+
+..  literalinclude:: ../examples/docstring_sphinx_cite.py
+    :language: python
+
