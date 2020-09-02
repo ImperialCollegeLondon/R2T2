@@ -13,7 +13,7 @@ DOC_STRING_LINE_2 = 'the docstring line 2'
 
 
 class TestIterExtractDocstringFromLines:
-    def _test_should_extract_no_docstrings_from_empty_file(self):
+    def test_should_extract_no_docstrings_from_empty_file(self):
         assert list(iter_extract_docstring_from_lines([])) == []
 
     def test_should_extract_no_docstrings_from_file_without_docstrings(self):
