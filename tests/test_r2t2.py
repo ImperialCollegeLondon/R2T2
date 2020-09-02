@@ -10,32 +10,26 @@ def decorated_function():
     return roasted_chicken
 
 
-def test_add_reference():
-    from r2t2 import BIBLIOGRAPHY
-
+def test_add_reference_no_tracking(bibliography):
     chicken = decorated_function()
-    assert "Great British Roasts, 2019" not in BIBLIOGRAPHY.references
+    assert "Great British Roasts, 2019" not in bibliography.references
     chicken()
-    assert "Great British Roasts, 2019" not in BIBLIOGRAPHY.references
+    assert "Great British Roasts, 2019" not in bibliography.references
 
-    BIBLIOGRAPHY.tracking()
+
+def test_add_reference_with_tracking(bibliography):
+    chicken = decorated_function()
+    bibliography.tracking()
     chicken("Chicken")
-    assert "Great British Roasts, 2019" in BIBLIOGRAPHY.references
+    assert "Great British Roasts, 2019" in bibliography.references
 
-    BIBLIOGRAPHY.clear()
-    BIBLIOGRAPHY.tracking(False)
+    bibliography.tracking(False)
 
 
-def test_print_references(capsys):
-    from r2t2 import BIBLIOGRAPHY
-
-    BIBLIOGRAPHY.tracking()
+def test_print_references(capsys, bib_with_tracking):
     chicken = decorated_function()
     chicken("Chicken")
-    print(BIBLIOGRAPHY)
+    print(bib_with_tracking)
     captured = capsys.readouterr()
 
     assert "Great British Roasts, 2019" in captured.out
-
-    BIBLIOGRAPHY.clear()
-    BIBLIOGRAPHY.tracking(False)

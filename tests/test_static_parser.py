@@ -1,4 +1,3 @@
-import pytest
 from pathlib import Path
 
 from r2t2.static_parser import locate_references
@@ -6,15 +5,6 @@ from r2t2.static_parser import locate_references
 
 HERE = Path(__file__).parent
 SAMPLE_PATH = HERE / "fixtures/sample_code.py"
-
-
-@pytest.fixture
-def bib_with_tracking():
-    from r2t2 import BIBLIOGRAPHY
-    BIBLIOGRAPHY.tracking()
-    yield BIBLIOGRAPHY
-    BIBLIOGRAPHY.clear()
-    BIBLIOGRAPHY.tracking(False)
 
 
 class TestLocateReferences:
