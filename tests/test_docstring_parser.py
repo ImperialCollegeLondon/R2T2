@@ -48,7 +48,8 @@ class TestIterExtractDocstringFromLines:
 
 class TestIterExtractDocstringFromFile:
     def test_should_extract_module_level_docstring_using_double_quotes(
-            self, temp_dir: Path):
+        self, temp_dir: Path
+    ):
         file_path = temp_dir / 'test.py'
         file_path.write_text('\n'.join([
             '"""',
