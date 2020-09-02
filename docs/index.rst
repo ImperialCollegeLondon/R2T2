@@ -19,17 +19,23 @@ Some of the benefits of using R2T2 in your project are:
     :maxdepth: 2
     :caption: Getting Started
 
-    installation
-    add-reference
-    runtime-tracker
-    static-tracker
+    getting-started/installation
+    getting-started/add-reference
+    getting-started/runtime-tracker
+    getting-started/static-tracker
 
 ..  toctree::
     :maxdepth: 2
     :caption: User Guide
 
-    references
-    output-format
+    user-guide/references
+    user-guide/output-format
+
+..  toctree::
+    :maxdepth: 2
+    :caption: Developer Guide
+
+    dev-guide/installation
 
 Indices and tables
 ==================
