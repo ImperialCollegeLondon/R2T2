@@ -1,6 +1,6 @@
 import inspect
 import wrapt
-from typing import NamedTuple, List
+from typing import NamedTuple, List, Optional, Callable
 from functools import reduce
 
 
@@ -46,18 +46,34 @@ class Biblio(dict):
 BIBLIOGRAPHY: Biblio = Biblio()
 
 
-def add_reference(*, short_purpose: str, reference: str):
+def add_reference(
+    *, short_purpose: str, reference: Optional[str] = None, doi: Optional[str] = None
+) -> Callable:
     """Decorator to link a reference to a function or method.
 
     Acts as a marker in code where particular alogrithms/data/... originates.
     General execution of code silently passes these markers, but remembers how and where
     they were called. Which markers were passed in a particular program run
-    can be recalled with print_references().
+    can be recalled with `print(BIBLIOGRAPHY)`.
 
-    Arguments:
-    short_purpose: Identify the thing being referenced (string)
-    reference: The reference itself, in any sensible format.
+    One and only one method for providing the reference is allowed.
+
+    Args:
+        short_purpose (str): Identify the thing being referenced.
+        reference (Optional, str): The reference itself, as a plain text string.
+        doi (Optional, str): DOI of the reference.
+
+    Returns:
+        The decorated function.
     """
+    if reference and doi:
+        raise ValueError("Only one method for providing the reference is allowed.")
+    elif reference:
+        ref = reference
+    elif doi:
+        ref = doi if "doi.org" in doi else f"https://doi.org/{doi}"
+    else:
+        raise ValueError("No reference information provided!")
 
     @wrapt.decorator(enabled=lambda: BIBLIOGRAPHY.track_references)
     def wrapper(wrapped, instance, args, kwargs):
@@ -65,10 +81,7 @@ def add_reference(*, short_purpose: str, reference: str):
         line = inspect.getsourcelines(wrapped)[1]
         identifier = f"{source}:{line}"
 
-        if (
-            identifier in BIBLIOGRAPHY
-            and reference in BIBLIOGRAPHY[identifier].references
-        ):
+        if identifier in BIBLIOGRAPHY and ref in BIBLIOGRAPHY[identifier].references:
             return wrapped(*args, **kwargs)
 
         if identifier not in BIBLIOGRAPHY:
@@ -76,7 +89,7 @@ def add_reference(*, short_purpose: str, reference: str):
                                                          [], [])
 
         BIBLIOGRAPHY[identifier].short_purpose.append(short_purpose)
-        BIBLIOGRAPHY[identifier].references.append(reference)
+        BIBLIOGRAPHY[identifier].references.append(ref)
 
         return wrapped(*args, **kwargs)
 

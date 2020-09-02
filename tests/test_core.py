@@ -1,46 +1,33 @@
-import pytest
-
 from r2t2.core import add_reference
 
 
-@pytest.fixture
-def chicken():
-    @add_reference(
-        short_purpose="Roasted chicken recipe", reference="Great British Roasts, 2019"
-    )
-    def roasted_chicken(ingredients=None):
-        pass
-
-    return roasted_chicken
-
-
 class TestAddReference():
-    def test_does_not_track_by_default(self, bibliography, chicken):
+    def test_does_not_track_by_default(self, bibliography, decorated_function):
         assert len(bibliography.references) == 0
         assert "Great British Roasts, 2019" not in bibliography.references
 
-    def test_does_not_track_by_default_when_called(self, bibliography, chicken):
-        chicken()
+    def test_does_not_track_by_default_when_called(self, bibliography, decorated_function):
+        decorated_function()
         assert len(bibliography.references) == 0
         assert "Great British Roasts, 2019" not in bibliography.references
 
-    def test_captures_when_tracking_on(self, bibliography, chicken):
+    def test_captures_when_tracking_on(self, bibliography, decorated_function):
         bibliography.tracking()
-        chicken("Chicken")
+        decorated_function("Chicken")
         assert len(bibliography.references) == 1
         assert "Great British Roasts, 2019" in bibliography.references
 
         bibliography.tracking(False)
 
-    def test_clear_removes_everything(self, bib_with_tracking, chicken):
+    def test_clear_removes_everything(self, bib_with_tracking, decorated_function):
         assert len(bib_with_tracking) == 0
         assert len(bib_with_tracking.references) == 0
-        chicken()
+        decorated_function()
         bib_with_tracking.clear()
         assert len(bib_with_tracking) == 0
         assert len(bib_with_tracking.references) == 0
 
-    def test_does_not_capture_when_not_called(self, bib_with_tracking, chicken):
+    def test_does_not_capture_when_not_called(self, bib_with_tracking, decorated_function):
         assert "Great British Roasts, 2019" not in bib_with_tracking
 
     def test_works_with_two_functions(self, bib_with_tracking):
@@ -79,9 +66,20 @@ class TestAddReference():
         assert "Reference 1" in bib_with_tracking.references
         assert len(bib_with_tracking.references) == 1
 
-    def test_print_references(self, capsys, bib_with_tracking, chicken):
-        chicken("Chicken")
+    def test_print_references(self, capsys, bib_with_tracking, decorated_function):
+        decorated_function("Chicken")
         print(bib_with_tracking)
         captured = capsys.readouterr()
 
         assert "Great British Roasts, 2019" in captured.out
+
+    def test_add_reference_from_doi(self, decorated_with_doi):
+        from r2t2 import BIBLIOGRAPHY
+
+        BIBLIOGRAPHY.tracking()
+
+        decorated_with_doi()
+        assert "https://doi.org/" in BIBLIOGRAPHY.references[-1]
+
+        BIBLIOGRAPHY.clear()
+        BIBLIOGRAPHY.tracking(False)
