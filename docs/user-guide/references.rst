@@ -9,35 +9,35 @@ or data stored in a repository is used.
 In Function
 -----------
 
-..  literalinclude:: examples/minimal.py
+..  literalinclude:: ../examples/minimal.py
     :language: python
 
 In Class
 --------
 
-..  literalinclude:: examples/minimal-class.py
+..  literalinclude:: ../examples/minimal-class.py
     :language: python
 
 In Method
 ---------
 
-..  literalinclude:: examples/minimal-method.py
+..  literalinclude:: ../examples/minimal-method.py
     :language: python
 
 Two or More References
 ----------------------
 
-..  literalinclude:: examples/mutiple.py
+..  literalinclude:: ../examples/mutiple.py
     :language: python
 
 As Annotation
 -------------
 
-..  literalinclude:: examples/reference-annotation.py
+..  literalinclude:: ../examples/reference-annotation.py
     :language: python
 
 As DocString
 ------------
 
-..  literalinclude:: examples/reference-docstring.py
+..  literalinclude:: ../examples/reference-docstring.py
     :language: python
