@@ -41,7 +41,8 @@
       "avatar_url": "https://avatars3.githubusercontent.com/u/457628?v=4",
       "profile": "https://erambler.co.uk/",
       "contributions": [
-        "test"
+        "test",
+        "review"
       ]
     },
     {
@@ -51,6 +52,15 @@
       "profile": "https://sites.google.com/view/valentinsulzer",
       "contributions": [
         "review"
+      ]
+    },
+    {
+      "login": "de-code",
+      "name": "Daniel Ecer",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1016473?v=4",
+      "profile": "https://uk.linkedin.com/in/daniel-ecer",
+      "contributions": [
+        "code"
       ]
     }
   ],
