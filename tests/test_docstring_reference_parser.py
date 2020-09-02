@@ -13,6 +13,7 @@ FIXTURES = HERE / "fixtures"
 
 DOI_1 = '10.1234/zenodo.1234567'
 DOI_2 = '10.5281/zenodo.1185316'
+DOI_3 = '10.3435/zenodo.1579823'
 
 
 class TestParseAndAddDocstringReferencesFromFiles:
@@ -102,7 +103,7 @@ class TestParseAndAddDocstringReferencesFromFiles:
         )
         identifiers = '{source}:{name}:{line_num}'
         names = ['cell_0', 'cell_4']
-        dois = [DOI_2, DOI_1]
+        dois = [[DOI_2, DOI_3], [DOI_1]]
         expected_identifiers = [
             identifiers.format(
                 source=str(file_path),
@@ -121,5 +122,6 @@ class TestParseAndAddDocstringReferencesFromFiles:
             assert function_reference.name == names[i]
             assert function_reference.source == str(file_path)
             assert function_reference.line == 'n/a'
-            assert function_reference.references == [DOI_URL_HTTPS_PREFIX + dois[i]]
-            assert function_reference.short_purpose == [NOTEBOOK_SHORT_PURPOSE]
+            assert function_reference.references == [DOI_URL_HTTPS_PREFIX + d
+                                                     for d in dois[i]]
+            assert function_reference.short_purpose == [NOTEBOOK_SHORT_PURPOSE] * len(dois[i])
