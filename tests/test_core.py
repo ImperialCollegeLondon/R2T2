@@ -1,13 +1,13 @@
 def test_add_reference(decorated_function):
     from r2t2 import BIBLIOGRAPHY
 
-    assert "Great British Roasts, 2019" not in BIBLIOGRAPHY.references
+    assert "[plain]Great British Roasts, 2019" not in BIBLIOGRAPHY.references
     decorated_function()
-    assert "Great British Roasts, 2019" not in BIBLIOGRAPHY.references
+    assert "[plain]Great British Roasts, 2019" not in BIBLIOGRAPHY.references
 
     BIBLIOGRAPHY.tracking()
     decorated_function("Chicken")
-    assert "Great British Roasts, 2019" in BIBLIOGRAPHY.references
+    assert "[plain]Great British Roasts, 2019" in BIBLIOGRAPHY.references
 
     BIBLIOGRAPHY.clear()
     BIBLIOGRAPHY.tracking(False)
@@ -33,7 +33,7 @@ def test_add_reference_from_doi(decorated_with_doi):
     BIBLIOGRAPHY.tracking()
 
     decorated_with_doi()
-    assert "https://doi.org/" in BIBLIOGRAPHY.references[-1]
+    assert "[doi]https://doi.org/" in BIBLIOGRAPHY.references[-1]
 
     BIBLIOGRAPHY.clear()
     BIBLIOGRAPHY.tracking(False)

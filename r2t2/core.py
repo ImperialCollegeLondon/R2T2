@@ -22,7 +22,7 @@ class Biblio(dict):
             out += f"\nSource file: {record.source}"
             out += f"\nLine: {record.line}\n"
             for short, ref in zip(record.short_purpose, record.references):
-                out += f"\t[{index}] {short} - {ref}\n"
+                out += f"\t[{index}] {short} - {ref.split(']', 1)[-1]}\n"
                 index += 1
             out += "\n"
             return out
@@ -69,9 +69,9 @@ def add_reference(
     if reference and doi:
         raise ValueError("Only one method for providing the reference is allowed.")
     elif reference:
-        ref = reference
+        ref = f"[plain]{reference}"
     elif doi:
-        ref = doi if "doi.org" in doi else f"https://doi.org/{doi}"
+        ref = f"[doi]{doi}" if "doi.org" in doi else f"[doi]https://doi.org/{doi}"
     else:
         raise ValueError("No reference information provided!")
 
