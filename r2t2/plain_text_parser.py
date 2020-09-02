@@ -21,10 +21,20 @@ def iter_latex_reference_names(text: str) -> Iterable[str]:
         yield m.group(1)
 
 
-def iter_parse_plain_text_references(text: str) -> Iterable[str]:
-    yield from iter_doi(text)
+def iter_parse_plain_text_raw_bib_references(text: str) -> Iterable[str]:
     yield from iter_sphinx_reference_names(text)
     yield from iter_latex_reference_names(text)
+
+
+def iter_parse_plain_text_bib_references(text: str) -> Iterable[str]:
+    for raw_reference in iter_parse_plain_text_raw_bib_references(text):
+        for ref_name in raw_reference.split(','):
+            yield ref_name.strip()
+
+
+def iter_parse_plain_text_references(text: str) -> Iterable[str]:
+    yield from iter_doi(text)
+    yield from iter_parse_plain_text_bib_references(text)
 
 
 def parse_plain_text_references(text: str) -> List[str]:

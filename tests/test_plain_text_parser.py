@@ -44,7 +44,17 @@ class TestParsePlainTextReferences:
             r'See :cite:`' + REF_NAME_1 + r'` for an introduction'
         ) == [REF_NAME_1]
 
+    def test_should_parse_multiple_sphinx_cite_references(self):
+        assert parse_plain_text_references(
+            r'See :cite:`' + REF_NAME_1 + ', ' + REF_NAME_2 + r'` for an introduction'
+        ) == [REF_NAME_1, REF_NAME_2]
+
     def test_should_parse_single_latex_cite_reference(self):
         assert parse_plain_text_references(
             r'\\cite{' + REF_NAME_1 + r'}'
         ) == [REF_NAME_1]
+
+    def test_should_parse_multiple_latex_cite_reference(self):
+        assert parse_plain_text_references(
+            r'\\cite{' + REF_NAME_1 + ', ' + REF_NAME_2 + r'}'
+        ) == [REF_NAME_1, REF_NAME_2]
