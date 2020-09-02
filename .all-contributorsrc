@@ -1,0 +1,26 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "dalonsoa",
+      "name": "Diego",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/6095790?v=4",
+      "profile": "https://www.imperial.ac.uk/admin-services/ict/self-service/research-support/rcs/research-software-engineering/",
+      "contributions": [
+        "code",
+        "doc",
+        "test"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "R2T2",
+  "projectOwner": "ImperialCollegeLondon",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
