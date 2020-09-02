@@ -16,6 +16,15 @@
         "test",
         "ideas"
       ]
+    },
+    {
+      "login": "mwoodbri",
+      "name": "Mark Woodbridge",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/1724545?v=4",
+      "profile": "https://www.imperial.ac.uk/ict/rcs",
+      "contributions": [
+        "infra"
+      ]
     }
   ],
   "contributorsPerLine": 7,
