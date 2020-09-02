@@ -39,7 +39,7 @@ jobs:
       run: |
         pytest
     - name: Install and run codecov
-      if: success() && (matrix.os == 'unbuntu-latest' && matrix.python-version == 3.8)
+      if: success() && (matrix.os == 'ubuntu-latest' && matrix.python-version == 3.8)
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       run: |
