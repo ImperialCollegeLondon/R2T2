@@ -16,7 +16,7 @@ def run_notebook_and_scripts(executable="python"):
     """
     # Scan and run
     print("Testing notebooks and scripts with executable `" + str(executable) + "`")
-    if not scan_for_nb_and_scripts("examples", True, executable):
+    if not scan_for_nb_and_scripts("docs/examples", True, executable):
         print("\nErrors encountered in notebooks")
         sys.exit(1)
     print("\nOK")
