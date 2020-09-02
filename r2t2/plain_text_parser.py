@@ -17,7 +17,7 @@ def iter_sphinx_reference_names(text: str) -> Iterable[str]:
 
 
 def iter_latex_reference_names(text: str) -> Iterable[str]:
-    for m in re.finditer(r'\\cite{([^}]+)}', text):
+    for m in re.finditer(r'\\cite(?:\[[^\]]*\])?{([^}]+)}', text):
         yield m.group(1)
 
 

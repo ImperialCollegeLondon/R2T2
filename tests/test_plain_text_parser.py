@@ -58,3 +58,8 @@ class TestParsePlainTextReferences:
         assert parse_plain_text_references(
             r'\\cite{' + REF_NAME_1 + ', ' + REF_NAME_2 + r'}'
         ) == [REF_NAME_1, REF_NAME_2]
+
+    def test_should_parse_latex_cite_reference_with_page_number(self):
+        assert parse_plain_text_references(
+            r'\\cite[p.~215]{' + REF_NAME_1 + r'}'
+        ) == [REF_NAME_1]
