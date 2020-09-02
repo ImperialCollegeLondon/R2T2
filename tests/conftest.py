@@ -23,3 +23,15 @@ def decorated_with_doi():
         pass
 
     return a_great_function
+
+
+@fixture
+def decorated_with_bibtex():
+    from r2t2 import add_reference
+
+    @add_reference(short_purpose="Bibtex reference", bibtex_key="Cesar2013")
+    def a_great_function():
+        pass
+
+    return a_great_function
+
