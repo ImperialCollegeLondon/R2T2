@@ -8,7 +8,7 @@ Download the source code::
 And install it using the source code::
 
     $ cd R2T2
-    $ python -m pip install -e .
+    $ python -m pip install -e .[dev]
 
 The ``-e`` flag will make sure
 that you are always using the code as is in your storage device.
