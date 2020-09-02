@@ -41,7 +41,8 @@ parser.add_argument(
     "--processor",
     default="plain",
     type=str,
-    help=f"Processor for references. Default: plain. "
+    help=f"Processor(s) for references. Default: plain. "
+    "Multiple processors can be used and should be passed as a comma-separated list."
     f"Valid options are: {','.join(list(PROCESSORS.keys()))}.",
 )
 
@@ -83,7 +84,10 @@ if args.processor is not None and args.processor not in PROCESSORS:
         f"Valid options for -p are: {', '.join(list(PROCESSORS.keys()))}"
     )
     sys.exit()
-elif args.processor == "bibtex" and args.bibtex is None:
+else:
+    processors = args.processor.split(",")
+
+if "bibtex" in args.processor.split(",") and args.bibtex is None:
     print(
         "ERROR: Bibtex processor format selected but no file given. "
         "Please provide a .bib file with the --bibtex (-b) argument."
@@ -109,8 +113,5 @@ if os.path.isdir(args.target) or args.static:
 else:
     runtime_tracker(args.target, args.args)
 
-if args.processor is not None:
-    pass
-    # this is not yet working
-    # PROCESSORS[args.processor](source=processor_source)
+# TODO how to pass to processor(s) with processor_source for bibtex?
 REGISTERED_WRITERS[args.format](output)
