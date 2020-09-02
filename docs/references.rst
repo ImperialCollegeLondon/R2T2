@@ -29,3 +29,15 @@ Two or More References
 
 ..  literalinclude:: examples/mutiple.py
     :language: python
+
+As Annotation
+-------------
+
+..  literalinclude:: examples/reference-annotation.py
+    :language: python
+
+As DocString
+------------
+
+..  literalinclude:: examples/reference-docstring.py
+    :language: python
