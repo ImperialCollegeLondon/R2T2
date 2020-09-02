@@ -48,7 +48,7 @@ def process_reference(ref: str, output_format: str = "plain"):
     if len(match) != 2:
         raise ValueError(f"Could not process reference {ref}")
 
-    return PROCESSORS[match[0]](match[1])
+    return getattr(PROCESSORS[match[0]](match[1]), output_format)
 
 
 class ProcessorBase(ABC):
@@ -58,9 +58,9 @@ class ProcessorBase(ABC):
         self._ref = ref
 
     @abstractmethod
-    def plain_text(self):
+    def plain(self) -> str:
         """Return the reference as plain text in a sensible format."""
 
     @abstractmethod
-    def bibtex(self):
+    def bibtex(self) -> str:
         """Return the reference as a bibtex entry."""
