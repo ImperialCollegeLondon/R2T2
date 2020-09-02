@@ -13,7 +13,7 @@ and the reference itself in any sensible format.
     :language: python
 
 Several references can be added by stacking multiple ``@add_reference``
-decorators. ::
+decorators.
 
 ..  literalinclude:: ../examples/mutiple.py
     :language: python
