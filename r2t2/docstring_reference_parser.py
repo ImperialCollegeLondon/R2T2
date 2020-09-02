@@ -61,5 +61,5 @@ def parse_and_add_docstring_references_from_files(
     if biblio is None:
         biblio = BIBLIOGRAPHY
     for key, ref in iter_parse_docstring_function_references_from_files(filenames):
-        if not key in biblio:
+        if key not in biblio:
             biblio[key] = ref
