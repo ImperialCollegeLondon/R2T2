@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 # flake8: noqa
 
+=======
+>>>>>>> 71abb554b8733373ce6b72e25cd4549fe918eed2
 # Configuration file for the Sphinx documentation builder.
 #
 # This file only contains a selection of the most common options. For a full
