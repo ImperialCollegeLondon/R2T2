@@ -19,19 +19,19 @@ class TestParsePlainTextReferences:
     def test_should_parse_doi_without_additional_text(self):
         assert parse_plain_text_references(
             DOI_1
-        ) == [DOI_1]
+        ) == [DOI_URL_HTTPS_PREFIX + DOI_1]
 
     def test_should_parse_doi_with_surround_text(self):
         assert parse_plain_text_references(
             'DOI: ' + DOI_1 + ' used for xyz'
-        ) == [DOI_1]
+        ) == [DOI_URL_HTTPS_PREFIX + DOI_1]
 
     def test_should_parse_doi_http_url(self):
         assert parse_plain_text_references(
             DOI_URL_HTTP_PREFIX + DOI_1
-        ) == [DOI_1]
+        ) == [DOI_URL_HTTPS_PREFIX + DOI_1]
 
     def test_should_parse_doi_https_url(self):
         assert parse_plain_text_references(
             DOI_URL_HTTP_PREFIX + DOI_1
-        ) == [DOI_1]
+        ) == [DOI_URL_HTTPS_PREFIX + DOI_1]

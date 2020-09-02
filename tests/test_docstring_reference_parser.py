@@ -6,6 +6,7 @@ from r2t2.docstring_reference_parser import (
     parse_and_add_docstring_references_from_files
 )
 
+DOI_URL_HTTPS_PREFIX = 'https://doi.org/'
 
 DOI_1 = '10.1234/zenodo.1234567'
 
@@ -35,7 +36,7 @@ class TestParseAndAddDocstringReferencesFromFiles:
         assert function_reference.name == 'some_function'
         assert function_reference.source == str(file_path)
         assert function_reference.line == 1
-        assert function_reference.references == [DOI_1]
+        assert function_reference.references == [DOI_URL_HTTPS_PREFIX + DOI_1]
         assert function_reference.short_purpose == [DOCSTRING_SHORT_PURPOSE]
 
     def test_should_not_add_function_reference_without_references(
