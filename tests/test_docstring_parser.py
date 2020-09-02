@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from r2t2.docstring_parser import (
+    CodeDocumentComment,
     iter_extract_docstring_from_lines,
     iter_extract_docstring_from_file,
     iter_extract_docstring_from_files
@@ -27,10 +28,14 @@ class TestIterExtractDocstringFromLines:
             DOC_STRING_LINE_1,
             DOC_STRING_LINE_2,
             '"""'
-        ])) == ['\n'.join([
-            DOC_STRING_LINE_1,
-            DOC_STRING_LINE_2
-        ])]
+        ])) == [CodeDocumentComment(
+            name=None,
+            lineno=1,
+            text='\n'.join([
+                DOC_STRING_LINE_1,
+                DOC_STRING_LINE_2
+            ])
+        )]
 
     def test_should_extract_function_level_docstring_using_double_quotes(self):
         assert list(iter_extract_docstring_from_lines([
@@ -40,10 +45,14 @@ class TestIterExtractDocstringFromLines:
             '    ' + DOC_STRING_LINE_2,
             '    """',
             '    pass'
-        ])) == ['\n'.join([
-            DOC_STRING_LINE_1,
-            DOC_STRING_LINE_2
-        ])]
+        ])) == [CodeDocumentComment(
+            name='some_function',
+            lineno=1,
+            text='\n'.join([
+                DOC_STRING_LINE_1,
+                DOC_STRING_LINE_2
+            ])
+        )]
 
 
 class TestIterExtractDocstringFromFile:
@@ -57,10 +66,15 @@ class TestIterExtractDocstringFromFile:
             DOC_STRING_LINE_2,
             '"""'
         ]))
-        expected_docstrings = ['\n'.join([
-            DOC_STRING_LINE_1,
-            DOC_STRING_LINE_2
-        ])]
+        expected_docstrings = [CodeDocumentComment(
+            filename=str(file_path),
+            name=None,
+            lineno=1,
+            text='\n'.join([
+                DOC_STRING_LINE_1,
+                DOC_STRING_LINE_2
+            ])
+        )]
         assert list(iter_extract_docstring_from_file(
             str(file_path)
         )) == expected_docstrings
