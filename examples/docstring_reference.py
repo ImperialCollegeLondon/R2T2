@@ -1,6 +1,3 @@
-from r2t2 import add_reference
-
-
 def my_great_function():
     """
     Original implementation of R2T2
