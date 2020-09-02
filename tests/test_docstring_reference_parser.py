@@ -3,12 +3,16 @@ from pathlib import Path
 from r2t2.core import Biblio, FunctionReference
 from r2t2.docstring_reference_parser import (
     DOCSTRING_SHORT_PURPOSE,
+    NOTEBOOK_SHORT_PURPOSE,
     parse_and_add_docstring_references_from_files
 )
 
 DOI_URL_HTTPS_PREFIX = 'https://doi.org/'
+HERE = Path(__file__).parent
+FIXTURES = HERE / "fixtures"
 
 DOI_1 = '10.1234/zenodo.1234567'
+DOI_2 = '10.5281/zenodo.1185316'
 
 
 class TestParseAndAddDocstringReferencesFromFiles:
@@ -27,9 +31,10 @@ class TestParseAndAddDocstringReferencesFromFiles:
             [file_path],
             biblio=biblio
         )
-        expected_identifier = '{source}:{line_num}'.format(
+        expected_identifier = '{source}:{name}:{line_num}'.format(
             source=str(file_path),
-            line_num=1
+            name='some_function',
+            line_num=1,
         )
         assert biblio.keys() == {expected_identifier}
         function_reference = biblio[expected_identifier]
@@ -49,9 +54,10 @@ class TestParseAndAddDocstringReferencesFromFiles:
             '    ' + DOI_1,
             '    """'
         ]))
-        expected_identifier = '{source}:{line_num}'.format(
+        expected_identifier = '{source}:{name}:{line_num}'.format(
             source=str(file_path),
-            line_num=1
+            name='some_function',
+            line_num=1,
         )
         biblio = Biblio()
         existing_function_reference = FunctionReference(
@@ -84,3 +90,36 @@ class TestParseAndAddDocstringReferencesFromFiles:
             biblio=biblio
         )
         assert not biblio
+
+    def test_should_parse_notebook_references(
+        self
+    ):
+        file_path = FIXTURES / "notebook_doi.ipynb"
+        biblio = Biblio()
+        parse_and_add_docstring_references_from_files(
+            [file_path],
+            biblio=biblio
+        )
+        identifiers = '{source}:{name}:{line_num}'
+        names = ['cell_0', 'cell_4']
+        dois = [DOI_2, DOI_1]
+        expected_identifiers = [
+            identifiers.format(
+                source=str(file_path),
+                name=names[0],
+                line_num='n/a'
+            ),
+            identifiers.format(
+                source=str(file_path),
+                name=names[1],
+                line_num='n/a'
+            ),
+                                ]
+        assert biblio.keys() == set(expected_identifiers)
+        for i, identifier in enumerate(expected_identifiers):
+            function_reference = biblio[identifier]
+            assert function_reference.name == names[i]
+            assert function_reference.source == str(file_path)
+            assert function_reference.line == 'n/a'
+            assert function_reference.references == [DOI_URL_HTTPS_PREFIX + dois[i]]
+            assert function_reference.short_purpose == [NOTEBOOK_SHORT_PURPOSE]
