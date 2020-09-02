@@ -8,15 +8,16 @@ r2t2_classifiers = [
     "Topic :: Utilities",
 ]
 
-tests_require = ["pytest", "pytest-flake8", "pytest-mypy"]
+tests_require = ["pytest", "pytest-flake8", "pytest-mypy", "pytest-cov"]
 precommit = ["pre-commit"]
 
 setup(
     name="R2T2",
-    version="0.2.0",
+    version="0.3.1",
     author="Research Computing Service, Imperial College London",
     author_email="rcs-support@imperial.ac.uk",
     url="https://github.com/ImperialCollegeLondon/R2T2",
+    install_requires=["wrapt"],
     tests_require=tests_require,
     extras_require={"dev": tests_require + precommit},
     packages=find_packages("."),
