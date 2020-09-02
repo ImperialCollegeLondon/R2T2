@@ -1,6 +1,6 @@
 # R2T2 - Research References Tracking Tool
 [![codecov](https://codecov.io/gh/ImperialCollegeLondon/R2T2/branch/develop/graph/badge.svg)](https://codecov.io/gh/ImperialCollegeLondon/R2T2)
-![Python package](https://github.com/ImperialCollegeLondon/R2T2/workflows/Python%20package/badge.svg)
+[![Python package](https://github.com/ImperialCollegeLondon/R2T2/workflows/Python%20package/badge.svg)](https://github.com/ImperialCollegeLondon/R2T2/actions?query=workflow%3A%22Python+package%22)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
