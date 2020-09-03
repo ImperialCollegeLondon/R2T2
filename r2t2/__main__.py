@@ -44,6 +44,12 @@ def parse_args(argv: List[str] = None) -> argparse.Namespace:
     )
 
     parser.add_argument(
+        "--notebook",
+        action="store_true",
+        help="Parse markdown cells from Jupyter notebooks.",
+    )
+
+    parser.add_argument(
         "--docstring",
         action="store_true",
         help="Also parse docstrings.",
@@ -90,6 +96,15 @@ def run(args: argparse.Namespace):
 
     if os.path.isdir(args.target) or args.static:
         locate_references(args.target, encoding=args.encoding)
+        if args.notebook:
+            if not args.target.endswith('.ipynb'):
+                raise Exception("If --notebook flag is passed, target must be a"
+                                " Jupyter notebook!")
+        if args.docstring or args.notebook:
+            parse_and_add_docstring_references_from_files(
+                expand_file_list(args.target),
+                encoding=args.encoding,
+            )
         if args.docstring:
             parse_and_add_docstring_references_from_files(
                 expand_file_list(args.target),
