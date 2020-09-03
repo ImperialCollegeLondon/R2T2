@@ -6,3 +6,9 @@ def my_great_function():
     http://doi.org/10.5281/zenodo.1185316
     """
     pass
+
+if __name__ == "__main__":
+    import os
+
+    # run static to avoid infinite loop
+    os.system("python3 -m r2t2 -s --docstring docs/examples/reference_docstring.py")

@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-# flake8: noqa
-
-=======
->>>>>>> 71abb554b8733373ce6b72e25cd4549fe918eed2
 # Configuration file for the Sphinx documentation builder.
 #
 # This file only contains a selection of the most common options. For a full
@@ -53,8 +48,3 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # a list of builtin themes.
 #
 html_theme = 'alabaster'
-
-# Add any paths that contain custom static files (such as style sheets) here,
-# relative to this directory. They are copied after the builtin static files,
-# so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
