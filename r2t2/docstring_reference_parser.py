@@ -51,9 +51,10 @@ def get_function_reference_from_docstring(
 
 
 def iter_parse_docstring_function_references_from_files(
-    filenames: Iterable[Union[str, Path]]
+    filenames: Iterable[Union[str, Path]],
+    **kwargs
 ) -> Iterable[Tuple[str, FunctionReference]]:
-    for docstring in iter_extract_docstring_from_files(filenames):
+    for docstring in iter_extract_docstring_from_files(filenames, **kwargs):
         function_reference = get_function_reference_from_docstring(docstring)
         identifier = get_function_reference_identifier(function_reference)
         if function_reference.references:
@@ -62,10 +63,13 @@ def iter_parse_docstring_function_references_from_files(
 
 def parse_and_add_docstring_references_from_files(
     filenames: Iterable[Union[str, Path]],
-    biblio: Biblio = None
+    biblio: Biblio = None,
+    **kwargs
 ):
     if biblio is None:
         biblio = BIBLIOGRAPHY
-    for key, ref in iter_parse_docstring_function_references_from_files(filenames):
+    for key, ref in iter_parse_docstring_function_references_from_files(
+        filenames, **kwargs
+    ):
         if key not in biblio:
             biblio[key] = ref

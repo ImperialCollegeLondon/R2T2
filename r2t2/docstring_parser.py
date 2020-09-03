@@ -13,6 +13,9 @@ FAKE_FUNC = """def cell_{}():
 """
 
 
+DEFAULT_ENCODING = 'utf-8'
+
+
 class CodeDocumentComment(NamedTuple):
     text: str
     filename: Optional[str] = None
@@ -53,10 +56,11 @@ def iter_extract_docstring_from_lines(
 
 
 def iter_extract_docstring_from_file(
-    path: Union[str, Path]
+    path: Union[str, Path],
+    encoding: str = DEFAULT_ENCODING
 ) -> Iterable[CodeDocumentComment]:
     path = Path(path)
-    txt = path.read_text(encoding='utf-8')
+    txt = path.read_text(encoding=encoding)
     notebook = False
     if path.suffix == ".ipynb":
         cells = json.loads(txt)["cells"]
@@ -73,7 +77,8 @@ def iter_extract_docstring_from_file(
 
 
 def iter_extract_docstring_from_files(
-    paths: Iterable[Union[str, Path]]
+    paths: Iterable[Union[str, Path]],
+    **kwargs
 ) -> Iterable[CodeDocumentComment]:
     for path in paths:
-        yield from iter_extract_docstring_from_file(path)
+        yield from iter_extract_docstring_from_file(path, **kwargs)
