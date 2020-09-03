@@ -6,7 +6,6 @@ from typing import Iterable, List, Tuple, Union
 from r2t2.core import Biblio, BIBLIOGRAPHY, FunctionReference
 from r2t2.plain_text_parser import iter_parse_plain_text_references
 from r2t2.docstring_parser import (
-    DEFAULT_ENCODING,
     CodeDocumentComment,
     iter_extract_docstring_from_files
 )
