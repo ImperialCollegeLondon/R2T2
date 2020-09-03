@@ -86,7 +86,6 @@ class TestAddReference:
 
 
 class TestAddSource:
-
     def test_add_source_exception_if_not_bibtex(self, bibliography, tmp_path):
         source = tmp_path / "my_source"
         with raises(ValueError):
@@ -110,3 +109,23 @@ class TestAddSource:
         bibliography.add_source(source)
         assert "tests" in bibliography._sources
         assert bibliography._sources["tests"] == source
+
+
+class TestLoadSource:
+
+    def test_load_source(self, bibliography, tmp_path):
+        source = tmp_path / "my_source.bib"
+        ref = """@misc{sulzer_marquis_timms_robinson_chapman_2020,
+ title={Python Battery Mathematical Modelling (PyBaMM)},
+ DOI={10.1149/osf.io/67ckj},
+ publisher={ECSarXiv},
+ author={Sulzer, Valentin and Marquis, Scott G and Timms, Robert and Robinson, Martin and Chapman, S. J},    # noqa: E501
+ year={2020},
+}
+}"""
+        with source.open("w") as f:
+            f.write(ref)
+
+        bibliography.add_source(source)
+        bibliography.load_source("tests")
+        assert "tests" in bibliography._sources_loaded
