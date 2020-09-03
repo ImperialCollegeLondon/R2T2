@@ -5,16 +5,14 @@ from typing import Iterable, List, Tuple, Union
 
 from r2t2.core import Biblio, BIBLIOGRAPHY, FunctionReference
 from r2t2.plain_text_parser import iter_parse_plain_text_references
-from r2t2.docstring_parser import (
-    CodeDocumentComment,
-    iter_extract_docstring_from_files
-)
+from r2t2.docstring_parser import CodeDocumentComment, iter_extract_docstring_from_files
 
 
 LOGGER = logging.getLogger(__name__)
 
 
-DOCSTRING_SHORT_PURPOSE = 'automatically parsed from docstring'
+DOCSTRING_SHORT_PURPOSE = "automatically parsed from docstring"
+NOTEBOOK_SHORT_PURPOSE = "automatically parsed from markdown cell"
 
 
 def expand_file_list(path: Union[Path, str]) -> List[Path]:
@@ -25,28 +23,33 @@ def expand_file_list(path: Union[Path, str]) -> List[Path]:
 
 
 def get_function_reference_identifier(function_reference: FunctionReference) -> str:
-    return "{source}:{line_num}".format(
+    return "{source}:{name}:{line_num}".format(
         source=function_reference.source,
-        line_num=function_reference.line
+        line_num=function_reference.line,
+        name=function_reference.name,
     )
 
 
 def get_function_reference_from_docstring(
-    docstring: CodeDocumentComment
+    docstring: CodeDocumentComment,
 ) -> FunctionReference:
     references = list(iter_parse_plain_text_references(docstring.text))
+    if docstring.lineno != "n/a":
+        purpose = DOCSTRING_SHORT_PURPOSE
+    else:
+        purpose = NOTEBOOK_SHORT_PURPOSE
     return FunctionReference(
-        source=docstring.filename or '',
+        source=docstring.filename or "",
         line=docstring.lineno or 0,
-        name=docstring.name or '',
+        package=docstring.package or "",
+        name=docstring.name or "",
         references=references,
-        short_purpose=[DOCSTRING_SHORT_PURPOSE] * len(references)
+        short_purpose=[purpose] * len(references),
     )
 
 
 def iter_parse_docstring_function_references_from_files(
-    filenames: Iterable[Union[str, Path]],
-    **kwargs
+    filenames: Iterable[Union[str, Path]], **kwargs
 ) -> Iterable[Tuple[str, FunctionReference]]:
     for docstring in iter_extract_docstring_from_files(filenames, **kwargs):
         function_reference = get_function_reference_from_docstring(docstring)
@@ -56,9 +59,7 @@ def iter_parse_docstring_function_references_from_files(
 
 
 def parse_and_add_docstring_references_from_files(
-    filenames: Iterable[Union[str, Path]],
-    biblio: Biblio = None,
-    **kwargs
+    filenames: Iterable[Union[str, Path]], biblio: Biblio = None, **kwargs
 ):
     if biblio is None:
         biblio = BIBLIOGRAPHY

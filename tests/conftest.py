@@ -9,6 +9,7 @@ from py._path.local import LocalPath
 def bibliography():
     from r2t2 import BIBLIOGRAPHY
 
+    BIBLIOGRAPHY.tracking(False)
     yield BIBLIOGRAPHY
     BIBLIOGRAPHY.clear()
 
@@ -44,10 +45,10 @@ def decorated_with_doi():
     return a_great_function
 
 
-@pytest.fixture(scope='session', autouse=True)
+@pytest.fixture(scope="session", autouse=True)
 def setup_logging():
-    for name in {'r2t2', 'tests'}:
-        logging.getLogger(name).setLevel('DEBUG')
+    for name in {"r2t2", "tests"}:
+        logging.getLogger(name).setLevel("DEBUG")
 
 
 @pytest.fixture()
