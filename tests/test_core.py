@@ -1,4 +1,5 @@
 from r2t2.core import add_reference
+from pytest import raises
 
 
 class TestAddReference:
@@ -82,3 +83,30 @@ class TestAddReference:
     def test_add_reference_from_doi(self, bib_with_tracking, decorated_with_doi):
         decorated_with_doi()
         assert "https://doi.org/" in bib_with_tracking.references[-1]
+
+
+class TestAddSource:
+
+    def test_add_source_exception_if_not_bibtex(self, bibliography, tmp_path):
+        source = tmp_path / "my_source"
+        with raises(ValueError):
+            bibliography.add_source(source)
+
+    def test_add_source_exception_if_not_exist(self, bibliography, tmp_path):
+        source = tmp_path / "my_source.bib"
+        with raises(RuntimeError):
+            bibliography.add_source(source)
+
+    def test_add_source_exception_source_exists(self, bibliography, tmp_path):
+        source = tmp_path / "my_source.bib"
+        source.open("w").close()
+        bibliography._sources["tests"] = "placeholder"
+        with raises(RuntimeError):
+            bibliography.add_source(source)
+
+    def test_add_source(self, bibliography, tmp_path):
+        source = tmp_path / "my_source.bib"
+        source.open("w").close()
+        bibliography.add_source(source)
+        assert "tests" in bibliography._sources
+        assert bibliography._sources["tests"] == source
