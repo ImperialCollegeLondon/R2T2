@@ -1,7 +1,6 @@
 import argparse
 import logging
 import os
-import sys
 from pathlib import Path
 from typing import List
 
@@ -32,15 +31,16 @@ def parse_args(argv: List[str] = None) -> argparse.Namespace:
         default=None,
         type=str,
         help="File to save the references into. Ignored if format is 'Terminal'."
-        "Default: [target folder]/references.",
+        " Default: [target folder]/references.",
     )
 
     parser.add_argument(
         "-s",
         "--static",
         action="store_true",
-        help="When processing a file, indicates if a static analysis should be done rather "
-        "than a runtime analysis, the default behaviour for files.",
+        help="When processing a file, indicates if a static analysis"
+        " should be done rather than a runtime analysis, "
+        " the default behaviour for files.",
     )
 
     parser.add_argument(
@@ -54,9 +54,10 @@ def parse_args(argv: List[str] = None) -> argparse.Namespace:
         default=".",
         nargs="?",
         type=str,
-        help="Target file or folder to analyse. If the target is a python file, this is "
-        "run as a script and the references provided are those found at runtime. "
-        "Default: Current directory.",
+        help="Target file or folder to analyse. If the target is a python file,"
+        " this is run as a script and the references provided are those"
+        " found at runtime."
+        " Default: Current directory.",
     )
 
     parser.add_argument(

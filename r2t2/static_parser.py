@@ -70,4 +70,6 @@ def parse_references(
 
         reduce(add_ref, ref_lines)
     except Exception as exc:
-        raise RuntimeError('failed to process %s due to %s' % (identifier, exc)) from exc
+        raise RuntimeError(
+            'failed to process %s due to %s' % (identifier, exc)
+        ) from exc
