@@ -97,6 +97,13 @@ class TestAddSource:
         with raises(RuntimeError):
             bibliography.add_source(source)
 
+    def test_add_source_exception_source_exists(self, bibliography, tmp_path):
+        source = tmp_path / "my_source.bib"
+        source.open("w").close()
+        bibliography._sources["tests"] = "placeholder"
+        with raises(RuntimeError):
+            bibliography.add_source(source)
+
     def test_add_source(self, bibliography, tmp_path):
         source = tmp_path / "my_source.bib"
         source.open("w").close()

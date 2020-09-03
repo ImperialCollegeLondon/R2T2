@@ -34,6 +34,10 @@ class Biblio(dict):
 
         return reduce(add_record, self.values(), "")
 
+    def clear(self) -> None:
+        super().clear()
+        self._sources.clear()
+
     @property
     def references(self):
         """Return a list of unique references."""
@@ -57,6 +61,7 @@ class Biblio(dict):
         Raises:
             ValueError if the file is not bibtex.
             RuntimeError if the file does not exist.
+            RuntimeError if the package already has a reference.
 
         Returns:
             None
@@ -67,6 +72,9 @@ class Biblio(dict):
             raise ValueError("References sources must be in bibtex format '.bib'")
         if not src.is_file():
             raise RuntimeError(f"References source file '{src}' does not exist!")
+        if package in self._sources:
+            raise RuntimeError(f"A reference source for this package has already been "
+                               f"added")
         self._sources[package] = src
 
 
