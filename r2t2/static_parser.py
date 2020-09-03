@@ -7,6 +7,14 @@ from functools import reduce
 from .core import BIBLIOGRAPHY, FunctionReference
 
 
+class FileParseError(RuntimeError):
+    pass
+
+
+class FileReferenceParseError(FileParseError):
+    pass
+
+
 def locate_references(path: Union[Path, str]):
     """Locates add_reference in path.
 
@@ -21,10 +29,15 @@ def locate_references(path: Union[Path, str]):
     else:
         filenames = [Path(path)]
 
+    for filename in filenames:
+        locate_references_in_file(filename)
+
+
+def locate_references_in_file(filename: Union[Path, str]):
     ref_located = False
     ref_lines = []
     code_str = []
-    for filename in filenames:
+    try:
         with open(filename, "r") as f:
             for num, line in enumerate(f):
                 if line.strip().startswith("@add_reference"):
@@ -45,6 +58,12 @@ def locate_references(path: Union[Path, str]):
 
                 elif ref_located:
                     code_str.append(line.strip())
+    except FileParseError:
+        raise
+    except Exception as exc:
+        raise FileParseError(
+            'failed to process %s due to %s' % (filename, exc)
+        ) from exc
 
 
 def _add_reference(**kwargs):
@@ -70,6 +89,6 @@ def parse_references(
 
         reduce(add_ref, ref_lines)
     except Exception as exc:
-        raise RuntimeError(
+        raise FileReferenceParseError(
             'failed to process %s due to %s' % (identifier, exc)
         ) from exc
