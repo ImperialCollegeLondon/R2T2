@@ -7,3 +7,7 @@ from r2t2 import add_reference
                "http://doi.org/10.5281/zenodo.1185316")
 def my_great_function():
     pass
+
+
+if __name__ == "__main__":
+    my_great_function()
