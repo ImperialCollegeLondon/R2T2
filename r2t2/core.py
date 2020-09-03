@@ -7,7 +7,7 @@ from pathlib import Path
 
 class FunctionReference(NamedTuple):
     name: str
-    line: int
+    line: Optional[int]
     source: str
     short_purpose: List[str]
     references: List[str]
@@ -25,7 +25,8 @@ class Biblio(dict):
             index = 1
             out += f"Referenced in: {record.name}"
             out += f"\nSource file: {record.source}"
-            out += f"\nLine: {record.line}\n"
+            if record.line is not None:
+                out += f"\nLine: {record.line}\n"
             for short, ref in zip(record.short_purpose, record.references):
                 out += f"\t[{index}] {short} - {ref}\n"
                 index += 1

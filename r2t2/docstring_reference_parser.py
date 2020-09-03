@@ -28,7 +28,7 @@ def expand_file_list(path: Union[Path, str]) -> List[Path]:
 def get_function_reference_identifier(function_reference: FunctionReference) -> str:
     return "{source}:{name}:{line_num}".format(
         source=function_reference.source,
-        line_num=function_reference.line,
+        line_num=function_reference.line or "n/a",
         name=function_reference.name,
     )
 
@@ -43,7 +43,7 @@ def get_function_reference_from_docstring(
         purpose = NOTEBOOK_SHORT_PURPOSE
     return FunctionReference(
         source=docstring.filename or '',
-        line=docstring.lineno or 0,
+        line=docstring.lineno,
         name=docstring.name or '',
         references=references,
         short_purpose=[purpose] * len(references)
