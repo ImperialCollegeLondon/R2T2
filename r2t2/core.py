@@ -4,6 +4,8 @@ from typing import NamedTuple, List, Optional, Callable, Dict, Union
 from functools import reduce
 from pathlib import Path
 
+import bibtexparser as bp
+
 
 class FunctionReference(NamedTuple):
     name: str
@@ -20,6 +22,7 @@ class Biblio(dict):
     def __init__(self):
         super().__init__()
         self._sources: Dict[str, Path] = {}
+        self._sources_loaded: Dict[str, bp.bibdatabase.BibDatabase] = {}
 
     def __str__(self):
         def add_record(out, record):
@@ -38,6 +41,7 @@ class Biblio(dict):
     def clear(self) -> None:
         super().clear()
         self._sources.clear()
+        self._sources_loaded.clear()
 
     @property
     def references(self):
@@ -78,6 +82,11 @@ class Biblio(dict):
                 "A reference source for this package has already been added"
             )
         self._sources[package] = src
+
+    def load_source(self, package: str) -> None:
+        """Open the source for the given package."""
+        with self._sources[package].open("w+") as f:
+            self._sources_loaded[package] = bp.load(f)
 
 
 BIBLIOGRAPHY: Biblio = Biblio()
