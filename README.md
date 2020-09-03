@@ -1,6 +1,7 @@
 # R2T2 - Research References Tracking Tool
 [![codecov](https://codecov.io/gh/ImperialCollegeLondon/R2T2/branch/develop/graph/badge.svg)](https://codecov.io/gh/ImperialCollegeLondon/R2T2)
 [![Python package](https://github.com/ImperialCollegeLondon/R2T2/workflows/Python%20package/badge.svg)](https://github.com/ImperialCollegeLondon/R2T2/actions?query=workflow%3A%22Python+package%22)
+[![Documentation Status](https://readthedocs.org/projects/r2t2/badge/?version=latest)](https://r2t2.readthedocs.io/en/latest/?badge=latest)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
@@ -15,6 +16,8 @@ Some of the benefits of using *R2T2* in your project are:
 - Promote the transparency of the code: bi-directional link between theory and
  the specific code that implements it.
 - Facilitate code maintenance and improve its sustainability.
+
+Further information is available in our [documentation](https://r2t2.readthedocs.io/en/latest/#) and [examples](docs/examples).
 
 ## Installation
 
@@ -122,7 +125,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://www.imperial.ac.uk/admin-services/ict/self-service/research-support/rcs/research-software-engineering/"><img src="https://avatars1.githubusercontent.com/u/6095790?v=4" width="100px;" alt=""/><br /><sub><b>Diego</b></sub></a><br /><a href="https://github.com/ImperialCollegeLondon/R2T2/commits?author=dalonsoa" title="Code">💻</a> <a href="https://github.com/ImperialCollegeLondon/R2T2/commits?author=dalonsoa" title="Documentation">📖</a> <a href="https://github.com/ImperialCollegeLondon/R2T2/commits?author=dalonsoa" title="Tests">⚠️</a> <a href="#ideas-dalonsoa" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://www.imperial.ac.uk/admin-services/ict/self-service/research-support/rcs/research-software-engineering/"><img src="https://avatars1.githubusercontent.com/u/6095790?v=4" width="100px;" alt=""/><br /><sub><b>Diego</b></sub></a><br /><a href="https://github.com/ImperialCollegeLondon/R2T2/commits?author=dalonsoa" title="Code">💻</a> <a href="https://github.com/ImperialCollegeLondon/R2T2/commits?author=dalonsoa" title="Documentation">📖</a> <a href="https://github.com/ImperialCollegeLondon/R2T2/commits?author=dalonsoa" title="Tests">⚠️</a> <a href="#ideas-dalonsoa" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-dalonsoa" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
     <td align="center"><a href="https://www.imperial.ac.uk/ict/rcs"><img src="https://avatars3.githubusercontent.com/u/1724545?v=4" width="100px;" alt=""/><br /><sub><b>Mark Woodbridge</b></sub></a><br /><a href="#infra-mwoodbri" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
     <td align="center"><a href="http://www.chasnelson.co.uk"><img src="https://avatars2.githubusercontent.com/u/7795189?v=4" width="100px;" alt=""/><br /><sub><b>Chas Nelson</b></sub></a><br /><a href="https://github.com/ImperialCollegeLondon/R2T2/pulls?q=is%3Apr+reviewed-by%3AChasNelson1990" title="Reviewed Pull Requests">👀</a></td>
     <td align="center"><a href="https://erambler.co.uk/"><img src="https://avatars3.githubusercontent.com/u/457628?v=4" width="100px;" alt=""/><br /><sub><b>Jez Cope</b></sub></a><br /><a href="https://github.com/ImperialCollegeLondon/R2T2/commits?author=jezcope" title="Tests">⚠️</a> <a href="https://github.com/ImperialCollegeLondon/R2T2/pulls?q=is%3Apr+reviewed-by%3Ajezcope" title="Reviewed Pull Requests">👀</a></td>
