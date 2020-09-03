@@ -49,12 +49,3 @@ class TestMain:
         main([
             'docs/examples'
         ])
-
-    def test_should_raise_error_with_invalid_writer(
-        self
-    ):
-        main([
-            '--static',
-            '--docstring',
-            'docs/examples'
-        ])
