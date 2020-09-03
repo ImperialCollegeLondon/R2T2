@@ -40,5 +40,4 @@ jobs:
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       run: |
-        pip install codecov
-        codecov
+        poetry run codecov
