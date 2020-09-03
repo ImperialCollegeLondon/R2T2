@@ -7,6 +7,9 @@ from typing import Iterable, NamedTuple, Union, Optional
 LOGGER = logging.getLogger(__name__)
 
 
+DEFAULT_ENCODING = 'utf-8'
+
+
 class CodeDocumentComment(NamedTuple):
     text: str
     filename: Optional[str] = None
@@ -42,16 +45,18 @@ def iter_extract_docstring_from_lines(
 
 
 def iter_extract_docstring_from_file(
-    path: Union[str, Path]
+    path: Union[str, Path],
+    encoding: str = DEFAULT_ENCODING
 ) -> Iterable[CodeDocumentComment]:
     return iter_extract_docstring_from_text(
-        Path(path).read_text(),
+        Path(path).read_text(encoding=encoding),
         filename=str(path)
     )
 
 
 def iter_extract_docstring_from_files(
-    paths: Iterable[Union[str, Path]]
+    paths: Iterable[Union[str, Path]],
+    **kwargs
 ) -> Iterable[CodeDocumentComment]:
     for path in paths:
-        yield from iter_extract_docstring_from_file(path)
+        yield from iter_extract_docstring_from_file(path, **kwargs)

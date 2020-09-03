@@ -92,7 +92,8 @@ def run(args: argparse.Namespace):
         locate_references(args.target, encoding=args.encoding)
         if args.docstring:
             parse_and_add_docstring_references_from_files(
-                expand_file_list(args.target)
+                expand_file_list(args.target),
+                encoding=args.encoding
             )
     else:
         runtime_tracker(args.target, args.args)
