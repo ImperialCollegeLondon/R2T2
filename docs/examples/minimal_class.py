@@ -9,9 +9,3 @@ from r2t2 import add_reference
 )
 class MyGreatClass:
     pass
-
-if __name__ == "__main__":
-    import os
-
-    # run static to avoid infinite loop
-    os.system("python3 -m r2t2 -s docs/examples/minimal_class.py")

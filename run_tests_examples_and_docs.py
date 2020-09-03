@@ -181,5 +181,31 @@ def export_notebook(ipath, opath):
     os.chmod(opath, 0o775)
 
 
+def run_doc_tests():
+    """
+    Checks if the documentation can be built, runs any doctests (currently not
+    used).
+    """
+    print("Checking if docs can be built.")
+    p = subprocess.Popen(
+        ["sphinx-build", "-b", "doctest", "docs", "docs/build/html", "-W"]
+    )
+    try:
+        ret = p.wait()
+    except KeyboardInterrupt:
+        try:
+            p.terminate()
+        except OSError:
+            pass
+        p.wait()
+        print("")
+        sys.exit(1)
+    if ret != 0:
+        print("FAILED")
+        sys.exit(ret)
+
+
 if __name__ == "__main__":
     run_notebook_and_scripts()
+    run_doc_tests()
+    # export_notebook("docs/examples/example.ipynb", "test.py")
