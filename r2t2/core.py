@@ -97,37 +97,45 @@ class Biblio(dict):
         with self._sources[package].open() as f:
             bp.dump(self._sources_loaded[package], f)
 
-    def process_ref(self, ref: FunctionReference) -> str:
+    def process_ref(self, ref: FunctionReference) -> List[str]:
+        """Process the reference keys and retrieves the full information."""
         if ref.package not in self._sources_loaded:
             self.load_source(ref.package)
 
+        processed = []
         for refstr in ref.references:
             if refstr.startswith("[plain]"):
-                return refstr.strip("[plain]")
+                processed.append(refstr.strip("[plain]"))
 
-            elif refstr.startswith("[bibkey]"):
-                return self._sources_loaded[ref.package].entries_dict[
-                    refstr.strip("[bibkey]")
-                ]
+            elif refstr.startswith("[bibtex]"):
+                processed.append(self._sources_loaded[ref.package].entries_dict[
+                    refstr.strip("[bibtex]")
+                ])
 
             elif refstr.startswith("[doi]"):
+                out = None
                 for entry in self._sources_loaded[ref.package].entries:
                     out = entry if entry.get("doi") == refstr.strip("[doi]") else None
                     if out:
                         db = bp.bibdatabase.BibDatabase()
                         db.entries = [out]
-                        return bp.dumps(db)
+                        processed.append(bp.dumps(db))
+                        break
 
-                out = doi2bib(refstr.strip("[doi]"))
                 if out:
-                    self.add_entry_to_source(bp.loads(out), ref.package)
-                    return out
+                    continue
+                else:
+                    out = doi2bib(refstr.strip("[doi]"))
+                    if out:
+                        self.add_entry_to_source(bp.loads(out), ref.package)
+                        processed.append(out)
+                        continue
 
                 warn(
                     f"Reference with doi={refstr.strip('[doi]')} not found!",
                     UserWarning,
                 )
-                return ""
+                return [""]
 
 
 BIBLIOGRAPHY: Biblio = Biblio()
