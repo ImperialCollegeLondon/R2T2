@@ -40,7 +40,11 @@ def add_common_arguments(parser: argparse.ArgumentParser):
         choices=sorted(REGISTERED_WRITERS.keys()),
         help="Format of the output. Default: Terminal."
     )
-
+    parser.add_argument(
+        "--encoding",
+        default="utf-8",
+        help="The encoding to use when parsing files.",
+    )
     parser.add_argument(
         "-o",
         "--output",
@@ -75,7 +79,7 @@ class RunSubCommand(SubCommand):
         )
 
     def run(self, args: argparse.Namespace):
-        runtime_tracker(args.target, args.args)
+        runtime_tracker(args.target, args.args, encoding=args.encoding)
 
 
 class StaticSubCommand(SubCommand):
@@ -93,11 +97,6 @@ class StaticSubCommand(SubCommand):
             "--notebook",
             action="store_true",
             help="Parse markdown cells from Jupyter notebooks.",
-        )
-        parser.add_argument(
-            "--encoding",
-            default="utf-8",
-            help="The encoding to use when parsing files.",
         )
         parser.add_argument(
             "target",
