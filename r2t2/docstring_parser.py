@@ -13,7 +13,7 @@ FAKE_FUNC = """def cell_{}():
 """
 
 
-DEFAULT_ENCODING = 'utf-8'
+DEFAULT_ENCODING = "utf-8"
 
 
 class CodeDocumentComment(NamedTuple):
@@ -21,28 +21,31 @@ class CodeDocumentComment(NamedTuple):
     filename: Optional[str] = None
     lineno: Optional[int] = None
     name: Optional[str] = None
+    package: Optional[str] = None
 
 
 def iter_extract_docstring_from_text(
-    text: str, filename: str = None,
+    text: str,
+    filename: str = None,
     notebook: bool = False,
 ) -> Iterable[CodeDocumentComment]:
-    tree = ast.parse(text, filename=filename or '<unknown>')
+    tree = ast.parse(text, filename=filename or "<unknown>")
     for node in ast.walk(tree):
-        LOGGER.debug('node: %r', node)
+        LOGGER.debug("node: %r", node)
         try:
             node_docstring = ast.get_docstring(node)
-            LOGGER.debug('node_docstring: %r', node_docstring)
+            LOGGER.debug("node_docstring: %r", node_docstring)
             if node_docstring:
                 if notebook:
-                    lineno = 'n/a'
+                    lineno = "n/a"
                 else:
-                    lineno = getattr(node, 'lineno', 1)
+                    lineno = getattr(node, "lineno", 1)
                 yield CodeDocumentComment(
                     filename=filename,
                     lineno=lineno,
-                    name=getattr(node, 'name', None),
-                    text=node_docstring
+                    name=getattr(node, "name", None),
+                    text=node_docstring,
+                    package="",
                 )
         except TypeError:
             # node type may not be able to have docstrings
@@ -50,14 +53,13 @@ def iter_extract_docstring_from_text(
 
 
 def iter_extract_docstring_from_lines(
-    lines: Iterable[str]
+    lines: Iterable[str],
 ) -> Iterable[CodeDocumentComment]:
-    return iter_extract_docstring_from_text('\n'.join(lines))
+    return iter_extract_docstring_from_text("\n".join(lines))
 
 
 def iter_extract_docstring_from_file(
-    path: Union[str, Path],
-    encoding: str = DEFAULT_ENCODING
+    path: Union[str, Path], encoding: str = DEFAULT_ENCODING
 ) -> Iterable[CodeDocumentComment]:
     path = Path(path)
     txt = path.read_text(encoding=encoding)
@@ -72,13 +74,11 @@ def iter_extract_docstring_from_file(
                 txt.append(FAKE_FUNC.format(i, "    ".join(c["source"])))
         txt = "\n".join(txt)
         notebook = True
-    return iter_extract_docstring_from_text(txt, filename=str(path),
-                                            notebook=notebook)
+    return iter_extract_docstring_from_text(txt, filename=str(path), notebook=notebook)
 
 
 def iter_extract_docstring_from_files(
-    paths: Iterable[Union[str, Path]],
-    **kwargs
+    paths: Iterable[Union[str, Path]], **kwargs
 ) -> Iterable[CodeDocumentComment]:
     for path in paths:
         yield from iter_extract_docstring_from_file(path, **kwargs)

@@ -10,7 +10,7 @@ from .runtime_tracker import runtime_tracker
 from .writers import REGISTERED_WRITERS
 from .docstring_reference_parser import (
     expand_file_list,
-    parse_and_add_docstring_references_from_files
+    parse_and_add_docstring_references_from_files,
 )
 
 
@@ -38,7 +38,7 @@ def add_common_arguments(parser: argparse.ArgumentParser):
         default="terminal",
         type=str,
         choices=sorted(REGISTERED_WRITERS.keys()),
-        help="Format of the output. Default: Terminal."
+        help="Format of the output. Default: Terminal.",
     )
     parser.add_argument(
         "--encoding",
@@ -53,11 +53,7 @@ def add_common_arguments(parser: argparse.ArgumentParser):
         help="File to save the references into. Ignored if format is 'Terminal'."
         " Default: [target folder]/references.",
     )
-    parser.add_argument(
-        "--debug",
-        action="store_true",
-        help="Enable debug logging"
-    )
+    parser.add_argument("--debug", action="store_true", help="Enable debug logging")
 
 
 class RunSubCommand(SubCommand):
@@ -102,27 +98,24 @@ class StaticSubCommand(SubCommand):
             "target",
             default=".",
             type=str,
-            help="Target file or folder to analyse."
-            " Default: Current directory.",
+            help="Target file or folder to analyse." " Default: Current directory.",
         )
 
     def run(self, args: argparse.Namespace):
         if args.notebook:
-            if not args.target.endswith('.ipynb'):
-                raise Exception("If --notebook flag is passed, target must be a"
-                                " Jupyter notebook!")
+            if not args.target.endswith(".ipynb"):
+                raise Exception(
+                    "If --notebook flag is passed, target must be a"
+                    " Jupyter notebook!"
+                )
         locate_references(args.target, encoding=args.encoding)
         if args.docstring or args.notebook:
             parse_and_add_docstring_references_from_files(
-                expand_file_list(args.target),
-                encoding=args.encoding
+                expand_file_list(args.target), encoding=args.encoding
             )
 
 
-SUB_COMMANDS: List[SubCommand] = [
-    RunSubCommand(),
-    StaticSubCommand()
-]
+SUB_COMMANDS: List[SubCommand] = [RunSubCommand(), StaticSubCommand()]
 
 SUB_COMMAND_BY_NAME: Dict[str, SubCommand] = {
     sub_command.name: sub_command for sub_command in SUB_COMMANDS
@@ -169,6 +162,6 @@ def main(argv: List[str] = None):
     run(args)
 
 
-if __name__ == '__main__':
-    logging.basicConfig(level='INFO')
+if __name__ == "__main__":
+    logging.basicConfig(level="INFO")
     main()
