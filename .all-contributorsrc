@@ -11,9 +11,6 @@
       "avatar_url": "https://avatars1.githubusercontent.com/u/6095790?v=4",
       "profile": "https://www.imperial.ac.uk/admin-services/ict/self-service/research-support/rcs/research-software-engineering/",
       "contributions": [
-        "code",
-        "doc",
-        "test",
         "ideas"
       ]
     },
@@ -32,7 +29,8 @@
       "avatar_url": "https://avatars2.githubusercontent.com/u/7795189?v=4",
       "profile": "http://www.chasnelson.co.uk",
       "contributions": [
-        "review"
+        "review",
+        "ideas"
       ]
     },
     {
@@ -42,7 +40,8 @@
       "profile": "https://erambler.co.uk/",
       "contributions": [
         "test",
-        "review"
+        "review",
+        "ideas"
       ]
     },
     {
@@ -52,7 +51,8 @@
       "profile": "https://sites.google.com/view/valentinsulzer",
       "contributions": [
         "review",
-        "bug"
+        "bug",
+        "ideas"
       ]
     },
     {
@@ -73,6 +73,16 @@
       "contributions": [
         "doc",
         "example"
+      ]
+    },
+    {
+      "login": "billbrod",
+      "name": "William F. Broderick",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/6338509?v=4",
+      "profile": "http://orcid.org/0000-0002-8999-9003",
+      "contributions": [
+        "ideas",
+        "bug"
       ]
     }
   ],
