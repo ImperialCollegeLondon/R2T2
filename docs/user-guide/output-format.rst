@@ -4,7 +4,7 @@ Output Format
 To have more control on the format of the output,
 use the ``-f`` flag::
 
-    $ python -m r2t2 run -f markdown some/subdirectory
+    $ python -m r2t2 static -f markdown some/subdirectory
 
 And to have more control on where the output is written,
 use the ``-o`` flag::
