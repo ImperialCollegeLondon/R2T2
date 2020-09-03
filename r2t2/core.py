@@ -73,8 +73,9 @@ class Biblio(dict):
         if not src.is_file():
             raise RuntimeError(f"References source file '{src}' does not exist!")
         if package in self._sources:
-            raise RuntimeError(f"A reference source for this package has already been "
-                               f"added")
+            raise RuntimeError(
+                f"A reference source for this package has already been " f"added"
+            )
         self._sources[package] = src
 
 
@@ -120,8 +121,9 @@ def add_reference(
             return wrapped(*args, **kwargs)
 
         if identifier not in BIBLIOGRAPHY:
-            BIBLIOGRAPHY[identifier] = FunctionReference(wrapped.__name__, line, source,
-                                                         [], [])
+            BIBLIOGRAPHY[identifier] = FunctionReference(
+                wrapped.__name__, line, source, [], []
+            )
 
         BIBLIOGRAPHY[identifier].short_purpose.append(short_purpose)
         BIBLIOGRAPHY[identifier].references.append(ref)
