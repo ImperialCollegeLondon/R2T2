@@ -3,8 +3,11 @@ import wrapt
 from typing import NamedTuple, List, Optional, Callable, Dict, Union
 from functools import reduce
 from pathlib import Path
+from warnings import warn
 
 import bibtexparser as bp
+
+from .doi2bib import doi2bib
 
 
 class FunctionReference(NamedTuple):
@@ -88,10 +91,43 @@ class Biblio(dict):
         with self._sources[package].open() as f:
             self._sources_loaded[package] = bp.load(f)
 
-    def save_source(self, package: str) -> None:
-        """Saves the (possibly modified) source for the given package."""
+    def add_entry_to_source(self, entry: dict, package: str) -> None:
+        """Add entry to source and save it source for the given package."""
+        self._sources_loaded[package].entries.append(entry)
         with self._sources[package].open() as f:
-             bp.dump(self._sources_loaded[package], f)
+            bp.dump(self._sources_loaded[package], f)
+
+    def process_ref(self, ref: FunctionReference) -> str:
+        if ref.package not in self._sources_loaded:
+            self.load_source(ref.package)
+
+        for refstr in ref.references:
+            if refstr.startswith("[plain]"):
+                return refstr.strip("[plain]")
+
+            elif refstr.startswith("[bibkey]"):
+                return self._sources_loaded[ref.package].entries_dict[
+                    refstr.strip("[bibkey]")
+                ]
+
+            elif refstr.startswith("[doi]"):
+                for entry in self._sources_loaded[ref.package].entries:
+                    out = entry if entry.get("doi") == refstr.strip("[doi]") else None
+                    if out:
+                        db = bp.bibdatabase.BibDatabase()
+                        db.entries = [out]
+                        return bp.dumps(db)
+
+                out = doi2bib(refstr.strip("[doi]"))
+                if out:
+                    self.add_entry_to_source(bp.loads(out), ref.package)
+                    return out
+
+                warn(
+                    f"Reference with doi={refstr.strip('[doi]')} not found!",
+                    UserWarning,
+                )
+                return ""
 
 
 BIBLIOGRAPHY: Biblio = Biblio()
