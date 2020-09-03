@@ -21,6 +21,14 @@ docs = ["sphinx", "sphinx-rtd-theme", "zope.interface"]
 tests = ["coverage (>=5.0.2)", "hypothesis", "pympler", "pytest (>=4.3.0)", "six", "zope.interface"]
 
 [[package]]
+name = "bump2version"
+version = "1.0.0"
+description = "Version-bump your software with a single command!"
+category = "dev"
+optional = false
+python-versions = ">=3.5"
+
+[[package]]
 name = "colorama"
 version = "0.4.3"
 description = "Cross-platform colored terminal text."
@@ -39,6 +47,11 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, <4"
 
 [package.extras]
 toml = ["toml"]
+
+[package.dependencies]
+[package.dependencies.toml]
+version = "*"
+optional = true
 
 [[package]]
 name = "filelock"
@@ -323,7 +336,7 @@ testing = ["jaraco.itertools", "func-timeout"]
 [metadata]
 lock-version = "1.0"
 python-versions = "^3.6"
-content-hash = "270e7b914e186c6ce04d653868971a3b075f94b39ef46a41748d372ef6147401"
+content-hash = "572dea8ad6ba93ed9f6966daf853c35df0d87b7ecebb057a04538a22d9653a14"
 
 [metadata.files]
 atomicwrites = [
@@ -333,6 +346,10 @@ atomicwrites = [
 attrs = [
     {file = "attrs-20.1.0-py2.py3-none-any.whl", hash = "sha256:2867b7b9f8326499ab5b0e2d12801fa5c98842d2cbd22b35112ae04bf85b4dff"},
     {file = "attrs-20.1.0.tar.gz", hash = "sha256:0ef97238856430dcf9228e07f316aefc17e8939fc8507e18c6501b761ef1a42a"},
+]
+bump2version = [
+    {file = "bump2version-1.0.0-py2.py3-none-any.whl", hash = "sha256:477f0e18a0d58e50bb3dbc9af7fcda464fd0ebfc7a6151d8888602d7153171a0"},
+    {file = "bump2version-1.0.0.tar.gz", hash = "sha256:cd4f3a231305e405ed8944d8ff35bd742d9bc740ad62f483bd0ca21ce7131984"},
 ]
 colorama = [
     {file = "colorama-0.4.3-py2.py3-none-any.whl", hash = "sha256:7d73d2a99753107a36ac6b455ee49046802e59d9d076ef8e47b61499fa29afff"},
