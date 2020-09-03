@@ -74,7 +74,7 @@ class Biblio(dict):
             raise RuntimeError(f"References source file '{src}' does not exist!")
         if package in self._sources:
             raise RuntimeError(
-                f"A reference source for this package has already been " f"added"
+                "A reference source for this package has already been added"
             )
         self._sources[package] = src
 
