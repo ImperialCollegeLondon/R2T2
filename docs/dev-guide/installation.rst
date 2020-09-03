@@ -7,10 +7,10 @@ First, download the source code::
 
 Second, install it and all development dependencies.
 We use Poetry_ to automate and simplify development tasks
-and you can set up your development environment like this::
+and after `installing Poetry`_
+you can set up your development environment like this::
 
     $ cd R2T2
-    $ python -m pip install poetry # if you haven't already installed it
     $ poetry install
 
 Poetry will set up a virtualenv for you to isolate the dependencies.
@@ -42,5 +42,6 @@ bump2version_
     when making a new release.
 
 .. _Poetry: https://python-poetry.org/
+.. _`installing Poetry` https://python-poetry.org/docs/#installation
 .. _pytest: https://docs.pytest.org/en/stable/
 .. _bump2version: https://github.com/c4urself/bump2version/
