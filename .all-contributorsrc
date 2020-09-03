@@ -15,7 +15,9 @@
         "doc",
         "test",
         "ideas",
-        "infra"
+        "infra",
+        "projectManagement",
+        "review"
       ]
     },
     {
@@ -34,7 +36,8 @@
       "profile": "http://www.chasnelson.co.uk",
       "contributions": [
         "review",
-        "ideas"
+        "ideas",
+        "code"
       ]
     },
     {
@@ -46,7 +49,9 @@
         "test",
         "review",
         "ideas",
-        "bug"
+        "bug",
+        "doc",
+        "infra"
       ]
     },
     {
@@ -70,7 +75,9 @@
       "contributions": [
         "code",
         "test",
-        "bug"
+        "bug",
+        "review",
+        "example"
       ]
     },
     {
