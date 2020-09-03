@@ -50,6 +50,12 @@ def parse_args(argv: List[str] = None) -> argparse.Namespace:
     )
 
     parser.add_argument(
+        "--encoding",
+        default="utf-8",
+        help="The encoding to use when parsing files.",
+    )
+
+    parser.add_argument(
         "target",
         default=".",
         nargs="?",
@@ -83,7 +89,7 @@ def run(args: argparse.Namespace):
         output = Path(args.output)
 
     if os.path.isdir(args.target) or args.static:
-        locate_references(args.target)
+        locate_references(args.target, encoding=args.encoding)
         if args.docstring:
             parse_and_add_docstring_references_from_files(
                 expand_file_list(args.target)

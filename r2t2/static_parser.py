@@ -15,7 +15,10 @@ class FileReferenceParseError(FileParseError):
     pass
 
 
-def locate_references(path: Union[Path, str]):
+DEFAULT_ENCODING = 'utf-8'
+
+
+def locate_references(path: Union[Path, str], encoding: str = DEFAULT_ENCODING):
     """Locates add_reference in path.
 
     It looks recursively for add_reference markers, taking note of the module, line
@@ -30,15 +33,15 @@ def locate_references(path: Union[Path, str]):
         filenames = [Path(path)]
 
     for filename in filenames:
-        locate_references_in_file(filename)
+        locate_references_in_file(filename, encoding=encoding)
 
 
-def locate_references_in_file(filename: Union[Path, str]):
+def locate_references_in_file(filename: Union[Path, str], encoding: str):
     ref_located = False
     ref_lines = []
     code_str = []
     try:
-        with open(filename, "r") as f:
+        with open(filename, "r", encoding=encoding) as f:
             for num, line in enumerate(f):
                 if line.strip().startswith("@add_reference"):
                     ref_located = True
