@@ -65,7 +65,7 @@ def locate_references_in_file(filename: Union[Path, str], encoding: str):
         raise
     except Exception as exc:
         raise FileParseError(
-            'failed to process %s due to %s' % (filename, exc)
+            'failed to process %s due to %r' % (filename, exc)
         ) from exc
 
 
@@ -93,5 +93,5 @@ def parse_references(
         reduce(add_ref, ref_lines)
     except Exception as exc:
         raise FileReferenceParseError(
-            'failed to process %s due to %s' % (identifier, exc)
+            'failed to process %s due to %r' % (identifier, exc)
         ) from exc
