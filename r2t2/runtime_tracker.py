@@ -1,16 +1,26 @@
-from .core import BIBLIOGRAPHY
+import logging
 import sys
 import os
+from typing import List
+
+from .core import BIBLIOGRAPHY
 
 
-def runtime_tracker(script, args):
+LOGGER = logging.getLogger(__name__)
+
+
+def runtime_tracker(script: str, args: List[str], encoding: str):
     BIBLIOGRAPHY.tracking()
 
     sys.argv = [script, *args]
     sys.path[0] = os.path.dirname(script)
 
     try:
-        with open(script) as fp:
+        LOGGER.debug(
+            "loading script: %s (args: %s, encoding: %s)",
+            script, args, encoding
+        )
+        with open(script, encoding=encoding) as fp:
             code = compile(fp.read(), script, "exec")
 
         # try to emulate __main__ namespace as much as possible

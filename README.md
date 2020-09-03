@@ -1,8 +1,9 @@
 # R2T2 - Research References Tracking Tool
 [![codecov](https://codecov.io/gh/ImperialCollegeLondon/R2T2/branch/develop/graph/badge.svg)](https://codecov.io/gh/ImperialCollegeLondon/R2T2)
 [![Python package](https://github.com/ImperialCollegeLondon/R2T2/workflows/Python%20package/badge.svg)](https://github.com/ImperialCollegeLondon/R2T2/actions?query=workflow%3A%22Python+package%22)
+[![Documentation Status](https://readthedocs.org/projects/r2t2/badge/?version=latest)](https://r2t2.readthedocs.io/en/latest/?badge=latest)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 
@@ -15,6 +16,8 @@ Some of the benefits of using *R2T2* in your project are:
 - Promote the transparency of the code: bi-directional link between theory and
  the specific code that implements it.
 - Facilitate code maintenance and improve its sustainability.
+
+Further information is available in our [documentation](https://r2t2.readthedocs.io/en/latest/#) and [examples](docs/examples).
 
 ## Installation
 
@@ -129,6 +132,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://sites.google.com/view/valentinsulzer"><img src="https://avatars3.githubusercontent.com/u/20817509?v=4" width="100px;" alt=""/><br /><sub><b>Valentin Sulzer</b></sub></a><br /><a href="https://github.com/ImperialCollegeLondon/R2T2/pulls?q=is%3Apr+reviewed-by%3Atinosulzer" title="Reviewed Pull Requests">👀</a> <a href="https://github.com/ImperialCollegeLondon/R2T2/issues?q=author%3Atinosulzer" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://uk.linkedin.com/in/daniel-ecer"><img src="https://avatars0.githubusercontent.com/u/1016473?v=4" width="100px;" alt=""/><br /><sub><b>Daniel Ecer</b></sub></a><br /><a href="https://github.com/ImperialCollegeLondon/R2T2/commits?author=de-code" title="Code">💻</a> <a href="https://github.com/ImperialCollegeLondon/R2T2/commits?author=de-code" title="Tests">⚠️</a></td>
     <td align="center"><a href="http://rgaiacs.com"><img src="https://avatars0.githubusercontent.com/u/1506457?v=4" width="100px;" alt=""/><br /><sub><b>Raniere Silva</b></sub></a><br /><a href="https://github.com/ImperialCollegeLondon/R2T2/commits?author=rgaiacs" title="Documentation">📖</a> <a href="#example-rgaiacs" title="Examples">💡</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="http://orcid.org/0000-0002-8999-9003"><img src="https://avatars1.githubusercontent.com/u/6338509?v=4" width="100px;" alt=""/><br /><sub><b>William F. Broderick</b></sub></a><br /><a href="https://github.com/ImperialCollegeLondon/R2T2/commits?author=billbrod" title="Code">💻</a></td>
   </tr>
 </table>
 

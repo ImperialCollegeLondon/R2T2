@@ -20,3 +20,11 @@ use the flag ``-s`` (from *static*)
 to prevent r2t2 to treat it as a script to run::
 
     $ python -m r2t2 -s my_script.py
+
+To extract dois from the docstrings of a script, pass the ``--docstring`` flag::
+
+    $ python -m r2t2 --docstring -s my_script.py
+
+Similarly, to extract dois from the markdown cells of a Jupyter notebook::
+
+    $ python -m r2t2 --notebook -s my_notebook.ipynb
