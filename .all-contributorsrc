@@ -41,7 +41,8 @@
       "contributions": [
         "test",
         "review",
-        "ideas"
+        "ideas",
+        "bug"
       ]
     },
     {
@@ -52,7 +53,9 @@
       "contributions": [
         "review",
         "bug",
-        "ideas"
+        "ideas",
+        "code",
+        "infra"
       ]
     },
     {
@@ -62,7 +65,8 @@
       "profile": "https://uk.linkedin.com/in/daniel-ecer",
       "contributions": [
         "code",
-        "test"
+        "test",
+        "bug"
       ]
     },
     {
