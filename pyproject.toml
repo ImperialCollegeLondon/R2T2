@@ -19,6 +19,9 @@ pytest-cov = "^2.10.1"
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
 
+[tool.pytest.ini_options]
+addopts = "--flake8 --mypy --cov=r2t2 --cov-report=html:htmlcov"
+
 [tool.black]
 exclude = '\.venv/|\.eggs/'
 
