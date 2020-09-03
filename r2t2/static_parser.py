@@ -55,16 +55,19 @@ def parse_references(
     source: str, current: str, line_num: int, ref_raw: List[str], ref_lines: List[int]
 ):
     """Extracts all references added to a function or class."""
-    name = re.findall(r"[\w']+", current)[1]
     identifier = f"{source}:{line_num}"
+    try:
+        name = re.findall(r"[\w']+", current)[1]
 
-    BIBLIOGRAPHY[identifier] = FunctionReference(name, line_num, source, [], [])
+        BIBLIOGRAPHY[identifier] = FunctionReference(name, line_num, source, [], [])
 
-    def add_ref(i, j):
-        one_ref = " ".join(ref_raw[i:j]).replace("@", "_")
-        kwargs = eval(one_ref)
-        BIBLIOGRAPHY[identifier].short_purpose.append(kwargs["short_purpose"])
-        BIBLIOGRAPHY[identifier].references.append(kwargs["reference"])
-        return j
+        def add_ref(i, j):
+            one_ref = " ".join(ref_raw[i:j]).replace("@", "_")
+            kwargs = eval(one_ref)
+            BIBLIOGRAPHY[identifier].short_purpose.append(kwargs["short_purpose"])
+            BIBLIOGRAPHY[identifier].references.append(kwargs["reference"])
+            return j
 
-    reduce(add_ref, ref_lines)
+        reduce(add_ref, ref_lines)
+    except Exception as exc:
+        raise RuntimeError('failed to process %s due to %s' % (identifier, exc)) from exc
