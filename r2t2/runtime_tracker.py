@@ -1,6 +1,11 @@
-from .core import BIBLIOGRAPHY
+import logging
 import sys
 import os
+
+from .core import BIBLIOGRAPHY
+
+
+LOGGER = logging.getLogger(__name__)
 
 
 def runtime_tracker(script, args):
@@ -10,6 +15,7 @@ def runtime_tracker(script, args):
     sys.path[0] = os.path.dirname(script)
 
     try:
+        LOGGER.debug("loading script: %s (args: %s)", script, args)
         with open(script) as fp:
             code = compile(fp.read(), script, "exec")
 
