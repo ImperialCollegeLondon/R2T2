@@ -13,6 +13,7 @@ INVALID_FORMAT = 'other'
 class TestParseArgs:
     def test_should_not_fail_on_valid_format(self):
         args = parse_args([
+            'run',
             '--format=%s' % VALID_FORMAT,
             'docs/examples'
         ])
@@ -21,6 +22,7 @@ class TestParseArgs:
     def test_should_fail_on_invalid_format(self):
         with pytest.raises(SystemExit):
             parse_args([
+                'run',
                 '--format=%s' % INVALID_FORMAT,
                 'docs/examples'
             ])
@@ -32,7 +34,7 @@ class TestMain:
         self
     ):
         main([
-            '--static',
+            'static',
             '--docstring',
             'docs/examples'
         ])
@@ -41,18 +43,19 @@ class TestMain:
         self
     ):
         main([
-            '--static',
+            'static',
             'docs/examples'
         ])
 
     def test_should_not_fail_on_runtime_analysis_of_examples(self):
         main([
-            'docs/examples'
+            'run',
+            'docs/examples/minimal.py'
         ])
 
     def test_should_not_fail_on_notebook(self):
         main([
-            '--static',
+            'static',
             '--notebook',
             'tests/fixtures/notebook_doi.ipynb'
         ])
@@ -60,7 +63,7 @@ class TestMain:
     def test_should_fail_on_non_notebook(self):
         with pytest.raises(Exception):
             main([
-                '--static',
+                'static',
                 '--notebook',
                 'docs/examples/docstring_doi.py'
             ])

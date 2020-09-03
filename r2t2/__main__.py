@@ -1,8 +1,9 @@
 import argparse
 import logging
 import os
+from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import List
+from typing import Dict, List
 
 from .static_parser import locate_references
 from .runtime_tracker import runtime_tracker
@@ -13,9 +14,24 @@ from .docstring_reference_parser import (
 )
 
 
-def parse_args(argv: List[str] = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser()
+LOGGER = logging.getLogger(__name__)
 
+
+class SubCommand(ABC):
+    def __init__(self, name, description):
+        self.name = name
+        self.description = description
+
+    @abstractmethod
+    def add_arguments(self, parser: argparse.ArgumentParser):
+        pass
+
+    @abstractmethod
+    def run(self, args: argparse.Namespace):
+        pass
+
+
+def add_common_arguments(parser: argparse.ArgumentParser):
     parser.add_argument(
         "-f",
         "--format",
@@ -33,50 +49,96 @@ def parse_args(argv: List[str] = None) -> argparse.Namespace:
         help="File to save the references into. Ignored if format is 'Terminal'."
         " Default: [target folder]/references.",
     )
-
     parser.add_argument(
-        "-s",
-        "--static",
+        "--debug",
         action="store_true",
-        help="When processing a file, indicates if a static analysis"
-        " should be done rather than a runtime analysis, "
-        " the default behaviour for files.",
+        help="Enable debug logging"
     )
 
-    parser.add_argument(
-        "--notebook",
-        action="store_true",
-        help="Parse markdown cells from Jupyter notebooks.",
-    )
 
-    parser.add_argument(
-        "--docstring",
-        action="store_true",
-        help="Also parse docstrings.",
-    )
+class RunSubCommand(SubCommand):
+    def __init__(self):
+        super().__init__("run", "Run script and use runtime tracking")
 
-    parser.add_argument(
-        "--encoding",
-        default="utf-8",
-        help="The encoding to use when parsing files.",
-    )
+    def add_arguments(self, parser: argparse.ArgumentParser):
+        add_common_arguments(parser)
+        parser.add_argument(
+            "target",
+            type=str,
+            help="This is run as a script and the references provided are those"
+            " found at runtime.",
+        )
+        parser.add_argument(
+            "args",
+            nargs=argparse.REMAINDER,
+            help="Input arguments for running the target script, if needed.",
+        )
 
-    parser.add_argument(
-        "target",
-        default=".",
-        nargs="?",
-        type=str,
-        help="Target file or folder to analyse. If the target is a python file,"
-        " this is run as a script and the references provided are those"
-        " found at runtime."
-        " Default: Current directory.",
-    )
+    def run(self, args: argparse.Namespace):
+        runtime_tracker(args.target, args.args)
 
-    parser.add_argument(
-        "args",
-        nargs=argparse.REMAINDER,
-        help="Input arguments for running the target script, if needed.",
-    )
+
+class StaticSubCommand(SubCommand):
+    def __init__(self):
+        super().__init__("static", "Run static analysis")
+
+    def add_arguments(self, parser: argparse.ArgumentParser):
+        add_common_arguments(parser)
+        parser.add_argument(
+            "--docstring",
+            action="store_true",
+            help="Also parse docstrings.",
+        )
+        parser.add_argument(
+            "--notebook",
+            action="store_true",
+            help="Parse markdown cells from Jupyter notebooks.",
+        )
+        parser.add_argument(
+            "--encoding",
+            default="utf-8",
+            help="The encoding to use when parsing files.",
+        )
+        parser.add_argument(
+            "target",
+            default=".",
+            type=str,
+            help="Target file or folder to analyse."
+            " Default: Current directory.",
+        )
+
+    def run(self, args: argparse.Namespace):
+        if args.notebook:
+            if not args.target.endswith('.ipynb'):
+                raise Exception("If --notebook flag is passed, target must be a"
+                                " Jupyter notebook!")
+        locate_references(args.target, encoding=args.encoding)
+        if args.docstring or args.notebook:
+            parse_and_add_docstring_references_from_files(
+                expand_file_list(args.target),
+                encoding=args.encoding
+            )
+
+
+SUB_COMMANDS: List[SubCommand] = [
+    RunSubCommand(),
+    StaticSubCommand()
+]
+
+SUB_COMMAND_BY_NAME: Dict[str, SubCommand] = {
+    sub_command.name: sub_command for sub_command in SUB_COMMANDS
+}
+
+
+def parse_args(argv: List[str] = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser()
+    subparsers = parser.add_subparsers(dest="command")
+    subparsers.required = True
+    for sub_command in SUB_COMMANDS:
+        sub_parser = subparsers.add_parser(
+            sub_command.name, help=sub_command.description
+        )
+        sub_command.add_arguments(sub_parser)
 
     args = parser.parse_args(argv)
     return args
@@ -94,30 +156,17 @@ def run(args: argparse.Namespace):
     else:
         output = Path(args.output)
 
-    if os.path.isdir(args.target) or args.static:
-        locate_references(args.target, encoding=args.encoding)
-        if args.notebook:
-            if not args.target.endswith('.ipynb'):
-                raise Exception("If --notebook flag is passed, target must be a"
-                                " Jupyter notebook!")
-        if args.docstring or args.notebook:
-            parse_and_add_docstring_references_from_files(
-                expand_file_list(args.target),
-                encoding=args.encoding,
-            )
-        if args.docstring:
-            parse_and_add_docstring_references_from_files(
-                expand_file_list(args.target),
-                encoding=args.encoding
-            )
-    else:
-        runtime_tracker(args.target, args.args)
+    sub_command = SUB_COMMAND_BY_NAME[args.command]
+    sub_command.run(args)
 
     REGISTERED_WRITERS[args.format](output)
 
 
 def main(argv: List[str] = None):
     args = parse_args(argv)
+    if args.debug:
+        logging.getLogger().setLevel(logging.DEBUG)
+    LOGGER.debug("args: %s", args)
     run(args)
 
 
