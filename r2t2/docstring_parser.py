@@ -56,7 +56,7 @@ def iter_extract_docstring_from_file(
     path: Union[str, Path]
 ) -> Iterable[CodeDocumentComment]:
     path = Path(path)
-    txt = path.read_text()
+    txt = path.read_text(encoding='utf-8')
     notebook = False
     if path.suffix == ".ipynb":
         cells = json.loads(txt)["cells"]
