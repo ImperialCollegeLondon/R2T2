@@ -6,6 +6,11 @@ from pathlib import Path
 from .static_parser import locate_references
 from .runtime_tracker import runtime_tracker
 from .writers import REGISTERED_WRITERS
+from .docstring_reference_parser import (
+    expand_file_list,
+    parse_and_add_docstring_references_from_files
+)
+
 
 parser = argparse.ArgumentParser()
 
@@ -33,6 +38,12 @@ parser.add_argument(
     action="store_true",
     help="When processing a file, indicates if a static analysis should be done rather "
     "than a runtime analysis, the default behaviour for files.",
+)
+
+parser.add_argument(
+    "--docstring",
+    action="store_true",
+    help="Also parse docstrings.",
 )
 
 parser.add_argument(
@@ -73,6 +84,10 @@ else:
 
 if os.path.isdir(args.target) or args.static:
     locate_references(args.target)
+    if args.docstring:
+        parse_and_add_docstring_references_from_files(
+            expand_file_list(args.target)
+        )
 else:
     runtime_tracker(args.target, args.args)
 

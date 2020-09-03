@@ -58,7 +58,7 @@ def parse_references(
     name = re.findall(r"[\w']+", current)[1]
     identifier = f"{source}:{line_num}"
 
-    BIBLIOGRAPHY[identifier] = FunctionReference(name, line_num, source)
+    BIBLIOGRAPHY[identifier] = FunctionReference(name, line_num, source, [], [])
 
     def add_ref(i, j):
         one_ref = " ".join(ref_raw[i:j]).replace("@", "_")
