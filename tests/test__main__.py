@@ -49,3 +49,18 @@ class TestMain:
         main([
             'docs/examples'
         ])
+
+    def test_should_not_fail_on_notebook(self):
+        main([
+            '--static',
+            '--notebook',
+            'tests/fixtures/notebook_doi.ipynb'
+        ])
+
+    def test_should_fail_on_non_notebook(self):
+        with pytest.raises(Exception):
+            main([
+                '--static',
+                '--notebook',
+                'docs/examples/docstring_doi.py'
+            ])
