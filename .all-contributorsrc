@@ -14,7 +14,8 @@
         "code",
         "doc",
         "test",
-        "ideas"
+        "ideas",
+        "infra"
       ]
     },
     {
@@ -51,7 +52,8 @@
       "avatar_url": "https://avatars3.githubusercontent.com/u/20817509?v=4",
       "profile": "https://sites.google.com/view/valentinsulzer",
       "contributions": [
-        "review"
+        "review",
+        "bug"
       ]
     },
     {
@@ -62,6 +64,16 @@
       "contributions": [
         "code",
         "test"
+      ]
+    },
+    {
+      "login": "rgaiacs",
+      "name": "Raniere Silva",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1506457?v=4",
+      "profile": "http://rgaiacs.com",
+      "contributions": [
+        "doc",
+        "example"
       ]
     }
   ],
