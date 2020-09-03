@@ -1,10 +1,19 @@
 import ast
 import logging
+import json
 from pathlib import Path
 from typing import Iterable, NamedTuple, Union, Optional
 
 
 LOGGER = logging.getLogger(__name__)
+FAKE_FUNC = """def cell_{}():
+    \"\"\"
+    {}
+    \"\"\"
+"""
+
+
+DEFAULT_ENCODING = 'utf-8'
 
 
 class CodeDocumentComment(NamedTuple):
@@ -15,7 +24,8 @@ class CodeDocumentComment(NamedTuple):
 
 
 def iter_extract_docstring_from_text(
-    text: str, filename: str = None
+    text: str, filename: str = None,
+    notebook: bool = False,
 ) -> Iterable[CodeDocumentComment]:
     tree = ast.parse(text, filename=filename or '<unknown>')
     for node in ast.walk(tree):
@@ -24,9 +34,13 @@ def iter_extract_docstring_from_text(
             node_docstring = ast.get_docstring(node)
             LOGGER.debug('node_docstring: %r', node_docstring)
             if node_docstring:
+                if notebook:
+                    lineno = 'n/a'
+                else:
+                    lineno = getattr(node, 'lineno', 1)
                 yield CodeDocumentComment(
                     filename=filename,
-                    lineno=getattr(node, 'lineno', 1),
+                    lineno=lineno,
                     name=getattr(node, 'name', None),
                     text=node_docstring
                 )
@@ -42,16 +56,29 @@ def iter_extract_docstring_from_lines(
 
 
 def iter_extract_docstring_from_file(
-    path: Union[str, Path]
+    path: Union[str, Path],
+    encoding: str = DEFAULT_ENCODING
 ) -> Iterable[CodeDocumentComment]:
-    return iter_extract_docstring_from_text(
-        Path(path).read_text(),
-        filename=str(path)
-    )
+    path = Path(path)
+    txt = path.read_text(encoding=encoding)
+    notebook = False
+    if path.suffix == ".ipynb":
+        cells = json.loads(txt)["cells"]
+        txt = []
+        # extract the markdown text from all markdown cells, and make each of
+        # them look like the docstring of a separate function
+        for i, c in enumerate(cells):
+            if c["cell_type"] == "markdown":
+                txt.append(FAKE_FUNC.format(i, "    ".join(c["source"])))
+        txt = "\n".join(txt)
+        notebook = True
+    return iter_extract_docstring_from_text(txt, filename=str(path),
+                                            notebook=notebook)
 
 
 def iter_extract_docstring_from_files(
-    paths: Iterable[Union[str, Path]]
+    paths: Iterable[Union[str, Path]],
+    **kwargs
 ) -> Iterable[CodeDocumentComment]:
     for path in paths:
-        yield from iter_extract_docstring_from_file(path)
+        yield from iter_extract_docstring_from_file(path, **kwargs)

@@ -11,7 +11,11 @@
       "avatar_url": "https://avatars1.githubusercontent.com/u/6095790?v=4",
       "profile": "https://www.imperial.ac.uk/admin-services/ict/self-service/research-support/rcs/research-software-engineering/",
       "contributions": [
-        "ideas"
+        "code",
+        "doc",
+        "test",
+        "ideas",
+        "infra"
       ]
     },
     {
@@ -86,7 +90,8 @@
       "profile": "http://orcid.org/0000-0002-8999-9003",
       "contributions": [
         "ideas",
-        "bug"
+        "bug",
+        "code"
       ]
     }
   ],

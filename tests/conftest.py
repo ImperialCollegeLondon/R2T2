@@ -9,6 +9,7 @@ from py._path.local import LocalPath
 def bibliography():
     from r2t2 import BIBLIOGRAPHY
 
+    BIBLIOGRAPHY.tracking(False)
     yield BIBLIOGRAPHY
     BIBLIOGRAPHY.clear()
 
