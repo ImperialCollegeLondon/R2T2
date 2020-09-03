@@ -108,12 +108,12 @@ class TestParseAndAddDocstringReferencesFromFiles:
             identifiers.format(
                 source=str(file_path),
                 name=names[0],
-                line_num='n/a'
+                line_num=0,
             ),
             identifiers.format(
                 source=str(file_path),
                 name=names[1],
-                line_num='n/a'
+                line_num=0,
             ),
         ]
         assert biblio.keys() == set(expected_identifiers)
@@ -121,7 +121,7 @@ class TestParseAndAddDocstringReferencesFromFiles:
             function_reference = biblio[identifier]
             assert function_reference.name == names[i]
             assert function_reference.source == str(file_path)
-            assert function_reference.line == 'n/a'
+            assert function_reference.line == 0
             assert function_reference.references == [DOI_URL_HTTPS_PREFIX + d
                                                      for d in dois[i]]
             assert function_reference.short_purpose == ([NOTEBOOK_SHORT_PURPOSE]

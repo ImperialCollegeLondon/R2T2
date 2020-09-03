@@ -37,7 +37,7 @@ def get_function_reference_from_docstring(
     docstring: CodeDocumentComment
 ) -> FunctionReference:
     references = list(iter_parse_plain_text_references(docstring.text))
-    if docstring.lineno != 'n/a':
+    if docstring.lineno is not None:
         purpose = DOCSTRING_SHORT_PURPOSE
     else:
         purpose = NOTEBOOK_SHORT_PURPOSE

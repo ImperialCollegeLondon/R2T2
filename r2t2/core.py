@@ -66,7 +66,11 @@ class Biblio(dict):
         Returns:
             None
         """
-        package = inspect.getmodule(inspect.stack()[1][0]).__name__.split(".")[0]
+        module = inspect.getmodule(inspect.stack()[1][0])
+        if module is not None:
+            package = module.__name__.split(".")[0]
+        else:
+            package = ""
         src = Path(source)
         if src.suffix != ".bib":
             raise ValueError("References sources must be in bibtex format '.bib'")
