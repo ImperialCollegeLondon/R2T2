@@ -85,8 +85,13 @@ class Biblio(dict):
 
     def load_source(self, package: str) -> None:
         """Open the source for the given package."""
-        with self._sources[package].open("w+") as f:
+        with self._sources[package].open() as f:
             self._sources_loaded[package] = bp.load(f)
+
+    def save_source(self, package: str) -> None:
+        """Saves the (possibly modified) source for the given package."""
+        with self._sources[package].open() as f:
+             bp.dump(self._sources_loaded[package], f)
 
 
 BIBLIOGRAPHY: Biblio = Biblio()
