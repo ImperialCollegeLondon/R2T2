@@ -22,8 +22,8 @@ def parse_args(argv: List[str] = None) -> argparse.Namespace:
         "--format",
         default="terminal",
         type=str,
-        help=f"Format of the output. Default: Terminal. "
-        f"Valid options are: {','.join(list(REGISTERED_WRITERS.keys()))}.",
+        choices=sorted(REGISTERED_WRITERS.keys()),
+        help="Format of the output. Default: Terminal."
     )
 
     parser.add_argument(
@@ -66,13 +66,6 @@ def parse_args(argv: List[str] = None) -> argparse.Namespace:
     )
 
     args = parser.parse_args(argv)
-
-    if args.format not in REGISTERED_WRITERS:
-        print(
-            f"ERROR: Unrecognized output formats. "
-            f"Valid options for -f are: {', '.join(list(REGISTERED_WRITERS.keys()))}"
-        )
-        sys.exit()
     return args
 
 
