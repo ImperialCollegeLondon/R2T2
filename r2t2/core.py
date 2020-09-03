@@ -1,7 +1,8 @@
 import inspect
 import wrapt
-from typing import NamedTuple, List, Optional, Callable
+from typing import NamedTuple, List, Optional, Callable, Dict, Union
 from functools import reduce
+from pathlib import Path
 
 
 class FunctionReference(NamedTuple):
@@ -14,6 +15,10 @@ class FunctionReference(NamedTuple):
 
 class Biblio(dict):
     track_references: bool = False
+
+    def __init__(self):
+        super().__init__()
+        self._sources: Dict[str, Path] = {}
 
     def __str__(self):
         def add_record(out, record):
@@ -41,6 +46,28 @@ class Biblio(dict):
     def tracking(self, enabled=True):
         """Enable the tracking of references."""
         self.track_references = enabled
+
+    def add_source(self, source: Union[str, Path]) -> None:
+        """Adds a bibliography source to the list of known sources.
+
+        Args:
+            source (str, Path): Path to the references source file. This must be a
+                bibtex file.
+
+        Raises:
+            ValueError if the file is not bibtex.
+            RuntimeError if the file does not exist.
+
+        Returns:
+            None
+        """
+        package = inspect.getmodule(inspect.stack()[1][0]).__name__.split(".")[0]
+        src = Path(source)
+        if src.suffix != ".bib":
+            raise ValueError("References sources must be in bibtex format '.bib'")
+        if not src.is_file():
+            raise RuntimeError(f"References source file '{src}' does not exist!")
+        self._sources[package] = src
 
 
 BIBLIOGRAPHY: Biblio = Biblio()
