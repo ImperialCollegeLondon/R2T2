@@ -2,8 +2,17 @@
 name = "R2T2"
 version = "0.3.1"
 description = "Research references tracking tool"
+repository = "https://github.com/ImperialCollegeLondon/R2T2"
+homepage = "https://imperialcollegelondon.github.io/R2T2/"
 authors = ["Research Computing Service, Imperial College London <rcs-support@imperial.ac.uk>"]
 license = "MIT"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Utilities",
+]
 
 [tool.poetry.dependencies]
 python = "^3.6"
