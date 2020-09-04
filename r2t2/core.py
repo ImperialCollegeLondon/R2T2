@@ -114,7 +114,12 @@ def add_reference(
     @wrapt.decorator(enabled=lambda: BIBLIOGRAPHY.track_references)
     def wrapper(wrapped, instance, args, kwargs):
         source = inspect.getsourcefile(wrapped)
-        line = inspect.getsourcelines(wrapped)[1]
+        try:
+            line = inspect.getsourcelines(wrapped)[1]
+        # add exception for testing notebook in a subprocess
+        except OSError:
+            line = "n/a"
+
         identifier = f"{source}:{line}"
 
         if identifier in BIBLIOGRAPHY and ref in BIBLIOGRAPHY[identifier].references:
