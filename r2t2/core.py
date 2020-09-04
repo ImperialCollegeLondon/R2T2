@@ -23,10 +23,10 @@ class Biblio(dict):
     def __str__(self):
         def add_record(out, record):
             index = 1
-            out += f"Referenced in: {record.name}"
-            out += f"\nSource file: {record.source}"
+            out += f"Referenced in: {record.name}\n"
+            out += f"Source file: {record.source}\n"
             if record.line is not None:
-                out += f"\nLine: {record.line}\n"
+                out += f"Line: {record.line}\n"
             for short, ref in zip(record.short_purpose, record.references):
                 out += f"\t[{index}] {short} - {ref}\n"
                 index += 1
