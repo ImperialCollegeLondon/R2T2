@@ -123,7 +123,7 @@ class Biblio(dict):
         with self._sources[package].open() as f:
             bp.dump(self._sources_loaded[package], f)
 
-    def process_ref(self, ref: FunctionReference) -> List[str]:
+    def process_ref(self, ref: FunctionReference) -> List[Dict]:
         """Process the reference keys and retrieves the full information."""
         self.get_source(ref.package)
 
@@ -194,20 +194,21 @@ def add_reference(
 
 
 @Biblio.register_process("plain")
-def process_plain(ref: str, *args, **kwargs) -> str:
+def process_plain(ref: str, *args, **kwargs) -> Dict:
     """ Process a plain string reference. Dummy function.
 
     Args:
         ref (str): The input reference string
 
     Returns:
-        The same input string.
+        A dictionary with the reference string as "title", a unique ID equal to the hash
+        of the reference string and an "ENTRYTYPE" equal to "misc".
     """
-    return ref
+    return {"ID": hash(ref), "ENTRYTYPE": "misc", "title": ref}
 
 
 @Biblio.register_process("bibtex")
-def process_bibtex(ref: str, package: str, *args, **kwargs) -> str:
+def process_bibtex(ref: str, package: str, *args, **kwargs) -> Dict:
     """ Process a bibtex key reference.
 
     Args:
@@ -224,7 +225,7 @@ def process_bibtex(ref: str, package: str, *args, **kwargs) -> str:
 
 
 @Biblio.register_process("doi")
-def process_doi(ref: str, package: str, *args, **kwargs) -> str:
+def process_doi(ref: str, package: str, *args, **kwargs) -> Dict:
     """ Process a doi key reference.
 
     First, it will look for the reference in the database for the given package. If it
@@ -254,4 +255,4 @@ def process_doi(ref: str, package: str, *args, **kwargs) -> str:
     warn(
         f"Reference with doi={ref} not found!", UserWarning,
     )
-    return ""
+    return {}
