@@ -218,6 +218,7 @@ def process_bibtex(ref: str, package: str, *args, **kwargs) -> Dict:
     Raises:
         KeyError: If the reference source for that package does not contain the
             requested key.
+
     Returns:
         A dictionary with the reference full information
     """
@@ -236,7 +237,10 @@ def process_doi(ref: str, package: str, *args, **kwargs) -> Dict:
     Args:
         ref (str): The doi of the reference.
         package (str): The package from where to get the reference from in the first
-        instance and where to save the reference after getting it from the internet.
+        instance and where to save the reference after getting it online.
+
+    Raises:
+        KeyError: If the reference is not found neither in the database nor online.
 
     Returns:
         A dictionary with the reference full information
@@ -252,7 +256,4 @@ def process_doi(ref: str, package: str, *args, **kwargs) -> Dict:
         BIBLIOGRAPHY.add_entry_to_source(bp.loads(out), package)
         return db.entries[-1]
 
-    warn(
-        f"Reference with doi={ref} not found!", UserWarning,
-    )
-    return {}
+    raise KeyError(f"Reference with doi={ref} not found in the database neither online")
