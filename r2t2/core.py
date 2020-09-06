@@ -3,7 +3,6 @@ import wrapt
 from typing import NamedTuple, List, Optional, Callable, Dict, Union
 from functools import reduce, partial
 from pathlib import Path
-from warnings import warn
 
 import bibtexparser as bp
 
