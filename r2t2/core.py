@@ -192,7 +192,7 @@ def add_reference(
     return wrapper
 
 
-@Biblio.register_process("plain")
+@Biblio.register_process(name="plain")
 def process_plain(ref: str, *args, **kwargs) -> Dict:
     """ Process a plain string reference. Dummy function.
 
@@ -206,7 +206,7 @@ def process_plain(ref: str, *args, **kwargs) -> Dict:
     return {"ID": hash(ref), "ENTRYTYPE": "misc", "title": ref}
 
 
-@Biblio.register_process("bibtex")
+@Biblio.register_process(name="bibtex")
 def process_bibtex(ref: str, package: str, *args, **kwargs) -> Dict:
     """ Process a bibtex key reference.
 
@@ -224,7 +224,7 @@ def process_bibtex(ref: str, package: str, *args, **kwargs) -> Dict:
     return BIBLIOGRAPHY.get_source(package).entries_dict[ref]
 
 
-@Biblio.register_process("doi")
+@Biblio.register_process(name="doi")
 def process_doi(ref: str, package: str, *args, **kwargs) -> Dict:
     """ Process a doi key reference.
 
