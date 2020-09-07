@@ -9,6 +9,7 @@ class FunctionReference(NamedTuple):
     name: str
     line: int
     source: str
+    package: str
     short_purpose: List[str]
     references: List[str]
 
@@ -116,13 +117,17 @@ def add_reference(
         source = inspect.getsourcefile(wrapped)
         line = inspect.getsourcelines(wrapped)[1]
         identifier = f"{source}:{line}"
+        try:
+            package = inspect.getmodule(inspect.stack()[1][0]).__name__.split(".")[0]
+        except AttributeError:
+            package = ""
 
         if identifier in BIBLIOGRAPHY and ref in BIBLIOGRAPHY[identifier].references:
             return wrapped(*args, **kwargs)
 
         if identifier not in BIBLIOGRAPHY:
             BIBLIOGRAPHY[identifier] = FunctionReference(
-                wrapped.__name__, line, source, [], []
+                wrapped.__name__, line, source, package, [], []
             )
 
         BIBLIOGRAPHY[identifier].short_purpose.append(short_purpose)

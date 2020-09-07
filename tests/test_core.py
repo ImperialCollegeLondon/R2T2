@@ -86,7 +86,6 @@ class TestAddReference:
 
 
 class TestAddSource:
-
     def test_add_source_exception_if_not_bibtex(self, bibliography, tmp_path):
         source = tmp_path / "my_source"
         with raises(ValueError):
