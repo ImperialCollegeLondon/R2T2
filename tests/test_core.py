@@ -86,7 +86,6 @@ class TestAddReference:
 
 
 class TestAddSource:
-
     def test_add_source_exception_if_not_bibtex(self, bibliography, tmp_path):
         source = tmp_path / "my_source"
         with raises(ValueError):
@@ -110,3 +109,29 @@ class TestAddSource:
         bibliography.add_source(source)
         assert "tests" in bibliography._sources
         assert bibliography._sources["tests"] == source
+
+
+class TestLoadSource:
+
+    def test_load_source(self, bibliography, tmp_path):
+        source = tmp_path / "my_source.bib"
+        ref = """@article{Sulzer_2019,
+    doi = {10.1149/2.0441908jes},
+    url = {https://doi.org/10.1149%2F2.0441908jes},
+    year = 2019,
+    publisher = {The Electrochemical Society},
+    volume = {166},
+    number = {12},
+    pages = {A2372--A2382},
+    author = {Valentin Sulzer et al.},
+    title = {Faster Lead-Acid Battery Simulations from Porous-Electrode Theory},
+    journal = {Journal of The Electrochemical Society},
+}
+"""
+        with source.open("w") as f:
+            f.write(ref)
+
+        bibliography.add_source(source)
+        bibliography.load_source("tests")
+        assert "tests" in bibliography._sources_loaded
+        assert "Sulzer_2019" in bibliography._sources_loaded["tests"].entries_dict

@@ -1,24 +1,50 @@
 import inspect
 import wrapt
 from typing import NamedTuple, List, Optional, Callable, Dict, Union
-from functools import reduce
+from functools import reduce, partial
 from pathlib import Path
+
+import bibtexparser as bp
+
+from .doi2bib import doi2bib
 
 
 class FunctionReference(NamedTuple):
     name: str
     line: int
     source: str
+    package: str
     short_purpose: List[str]
     references: List[str]
 
 
 class Biblio(dict):
     track_references: bool = False
+    _processes: Dict[str, Callable] = {}
+
+    @classmethod
+    def register_process(cls, f: Optional[Callable] = None, name: Optional[str] = None):
+        """Register a function for processing references in the registry.
+
+        Args:
+            f: Function to process references.
+            name (str): Name of the type of reference to process, eg. plain, doi...
+
+        Returns:
+            The same input function
+        """
+        if f is None:
+            return partial(cls.register_process, name=name)
+
+        name = name if name else f.__name__
+
+        cls._processes[name] = f
+        return f
 
     def __init__(self):
         super().__init__()
         self._sources: Dict[str, Path] = {}
+        self._sources_loaded: Dict[str, bp.bibdatabase.BibDatabase] = {}
 
     def __str__(self):
         def add_record(out, record):
@@ -37,6 +63,7 @@ class Biblio(dict):
     def clear(self) -> None:
         super().clear()
         self._sources.clear()
+        self._sources_loaded.clear()
 
     @property
     def references(self):
@@ -78,6 +105,34 @@ class Biblio(dict):
             )
         self._sources[package] = src
 
+    def load_source(self, package: str) -> None:
+        """Open the source for the given package."""
+        with self._sources[package].open() as f:
+            self._sources_loaded[package] = bp.load(f)
+
+    def get_source(self, package: str) -> bp.bibdatabase.BibDatabase:
+        """Provide the requested sources database."""
+        if package not in self._sources_loaded:
+            self.load_source(package)
+        return self._sources_loaded[package]
+
+    def add_entry_to_source(self, entry: dict, package: str) -> None:
+        """Add entry to source and save it source for the given package."""
+        self._sources_loaded[package].entries.append(entry)
+        with self._sources[package].open() as f:
+            bp.dump(self._sources_loaded[package], f)
+
+    def process_ref(self, ref: FunctionReference) -> List[Dict]:
+        """Process the reference keys and retrieves the full information."""
+        self.get_source(ref.package)
+
+        processed = []
+        for refstr in ref.references:
+            rtype, rstr = refstr.strip("[").split("]", 1)
+            processed.append(self._processes[rtype](rstr, ref.package))
+
+        return processed
+
 
 BIBLIOGRAPHY: Biblio = Biblio()
 
@@ -116,13 +171,17 @@ def add_reference(
         source = inspect.getsourcefile(wrapped)
         line = inspect.getsourcelines(wrapped)[1]
         identifier = f"{source}:{line}"
+        try:
+            package = inspect.getmodule(inspect.stack()[1][0]).__name__.split(".")[0]
+        except AttributeError:
+            package = ""
 
         if identifier in BIBLIOGRAPHY and ref in BIBLIOGRAPHY[identifier].references:
             return wrapped(*args, **kwargs)
 
         if identifier not in BIBLIOGRAPHY:
             BIBLIOGRAPHY[identifier] = FunctionReference(
-                wrapped.__name__, line, source, [], []
+                wrapped.__name__, line, source, package, [], []
             )
 
         BIBLIOGRAPHY[identifier].short_purpose.append(short_purpose)
@@ -131,3 +190,69 @@ def add_reference(
         return wrapped(*args, **kwargs)
 
     return wrapper
+
+
+@Biblio.register_process(name="plain")
+def process_plain(ref: str, *args, **kwargs) -> Dict:
+    """ Process a plain string reference. Dummy function.
+
+    Args:
+        ref (str): The input reference string
+
+    Returns:
+        A dictionary with the reference string as "title", a unique ID equal to the hash
+        of the reference string and an "ENTRYTYPE" equal to "misc".
+    """
+    return {"ID": hash(ref), "ENTRYTYPE": "misc", "title": ref}
+
+
+@Biblio.register_process(name="bibtex")
+def process_bibtex(ref: str, package: str, *args, **kwargs) -> Dict:
+    """ Process a bibtex key reference.
+
+    Args:
+        ref (str): The bibtex key.
+        package (str): The package from where to get the reference from.
+
+    Raises:
+        KeyError: If the reference source for that package does not contain the
+            requested key.
+
+    Returns:
+        A dictionary with the reference full information
+    """
+    return BIBLIOGRAPHY.get_source(package).entries_dict[ref]
+
+
+@Biblio.register_process(name="doi")
+def process_doi(ref: str, package: str, *args, **kwargs) -> Dict:
+    """ Process a doi key reference.
+
+    First, it will look for the reference in the database for the given package. If it
+    is not found there, it will retrieved it from the internet. If successful, the
+    reference will be added to the database, so future requests to access this reference
+    will be local.
+
+    Args:
+        ref (str): The doi of the reference.
+        package (str): The package from where to get the reference from in the first
+        instance and where to save the reference after getting it online.
+
+    Raises:
+        KeyError: If the reference is not found neither in the database nor online.
+
+    Returns:
+        A dictionary with the reference full information
+    """
+    db = BIBLIOGRAPHY.get_source(package)
+    for entry in db.entries:
+        out = entry if entry.get("doi") == ref else None
+        if out:
+            return out
+
+    out = doi2bib(ref)
+    if out:
+        BIBLIOGRAPHY.add_entry_to_source(bp.loads(out), package)
+        return db.entries[-1]
+
+    raise KeyError(f"Reference with doi={ref} not found in the database neither online")

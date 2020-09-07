@@ -15,7 +15,7 @@ class FileReferenceParseError(FileParseError):
     pass
 
 
-DEFAULT_ENCODING = 'utf-8'
+DEFAULT_ENCODING = "utf-8"
 
 
 def locate_references(path: Union[Path, str], encoding: str = DEFAULT_ENCODING):
@@ -65,7 +65,7 @@ def locate_references_in_file(filename: Union[Path, str], encoding: str):
         raise
     except Exception as exc:
         raise FileParseError(
-            'failed to process %s due to %r' % (filename, exc)
+            "failed to process %s due to %r" % (filename, exc)
         ) from exc
 
 
@@ -81,7 +81,7 @@ def parse_references(
     try:
         name = re.findall(r"[\w']+", current)[1]
 
-        BIBLIOGRAPHY[identifier] = FunctionReference(name, line_num, source, [], [])
+        BIBLIOGRAPHY[identifier] = FunctionReference(name, line_num, source, "", [], [])
 
         def add_ref(i, j):
             one_ref = " ".join(ref_raw[i:j]).replace("@", "_")
@@ -93,5 +93,5 @@ def parse_references(
         reduce(add_ref, ref_lines)
     except Exception as exc:
         raise FileReferenceParseError(
-            'failed to process %s due to %r' % (identifier, exc)
+            "failed to process %s due to %r" % (identifier, exc)
         ) from exc

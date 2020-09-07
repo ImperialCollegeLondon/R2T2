@@ -17,8 +17,7 @@ def runtime_tracker(script: str, args: List[str], encoding: str):
 
     try:
         LOGGER.debug(
-            "loading script: %s (args: %s, encoding: %s)",
-            script, args, encoding
+            "loading script: %s (args: %s, encoding: %s)", script, args, encoding
         )
         with open(script, encoding=encoding) as fp:
             code = compile(fp.read(), script, "exec")
