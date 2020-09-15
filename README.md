@@ -134,7 +134,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="http://rgaiacs.com"><img src="https://avatars0.githubusercontent.com/u/1506457?v=4" width="100px;" alt=""/><br /><sub><b>Raniere Silva</b></sub></a><br /><a href="https://github.com/ImperialCollegeLondon/R2T2/commits?author=rgaiacs" title="Documentation">📖</a> <a href="#example-rgaiacs" title="Examples">💡</a></td>
   </tr>
   <tr>
-    <td align="center"><a href="http://orcid.org/0000-0002-8999-9003"><img src="https://avatars1.githubusercontent.com/u/6338509?v=4" width="100px;" alt=""/><br /><sub><b>William F. Broderick</b></sub></a><br /><a href="#ideas-billbrod" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/ImperialCollegeLondon/R2T2/issues?q=author%3Abillbrod" title="Bug reports">🐛</a> <a href="https://github.com/ImperialCollegeLondon/R2T2/commits?author=billbrod" title="Code">💻</a></td>
+    <td align="center"><a href="http://orcid.org/0000-0002-8999-9003"><img src="https://avatars1.githubusercontent.com/u/6338509?v=4" width="100px;" alt=""/><br /><sub><b>William F. Broderick</b></sub></a><br /><a href="#ideas-billbrod" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/ImperialCollegeLondon/R2T2/issues?q=author%3Abillbrod" title="Bug reports">🐛</a> <a href="https://github.com/ImperialCollegeLondon/R2T2/commits?author=billbrod" title="Code">💻</a> <a href="https://github.com/ImperialCollegeLondon/R2T2/pulls?q=is%3Apr+reviewed-by%3Abillbrod" title="Reviewed Pull Requests">👀</a></td>
   </tr>
 </table>
 
