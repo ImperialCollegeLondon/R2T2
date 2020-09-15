@@ -36,7 +36,9 @@ def markdown(mdfile: Union[Path, str]) -> None:
         for record in BIBLIOGRAPHY.values():
             source = os.path.relpath(record.source, root)
             f.write(
-                template_name.format(name=record.name, source=source, line=record.line)
+                template_name.format(
+                    name=record.name, source=source, line=record.line or "n/a"
+                )
             )
             for i, (short, ref) in enumerate(
                 zip(record.short_purpose, record.references)
