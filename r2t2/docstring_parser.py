@@ -35,7 +35,7 @@ def iter_extract_docstring_from_text(
             LOGGER.debug('node_docstring: %r', node_docstring)
             if node_docstring:
                 if notebook:
-                    lineno = 'n/a'
+                    lineno = None
                 else:
                     lineno = getattr(node, 'lineno', 1)
                 yield CodeDocumentComment(
@@ -64,13 +64,13 @@ def iter_extract_docstring_from_file(
     notebook = False
     if path.suffix == ".ipynb":
         cells = json.loads(txt)["cells"]
-        txt = []
+        txt_parts = []
         # extract the markdown text from all markdown cells, and make each of
         # them look like the docstring of a separate function
         for i, c in enumerate(cells):
             if c["cell_type"] == "markdown":
-                txt.append(FAKE_FUNC.format(i, "    ".join(c["source"])))
-        txt = "\n".join(txt)
+                txt_parts.append(FAKE_FUNC.format(i, "    ".join(c["source"])))
+        txt = "\n".join(txt_parts)
         notebook = True
     return iter_extract_docstring_from_text(txt, filename=str(path),
                                             notebook=notebook)
