@@ -7,7 +7,7 @@ from pathlib import Path
 
 class FunctionReference(NamedTuple):
     name: str
-    line: int
+    line: Optional[int]
     source: str
     short_purpose: List[str]
     references: List[str]
@@ -23,9 +23,10 @@ class Biblio(dict):
     def __str__(self):
         def add_record(out, record):
             index = 1
-            out += f"Referenced in: {record.name}"
-            out += f"\nSource file: {record.source}"
-            out += f"\nLine: {record.line}\n"
+            out += f"Referenced in: {record.name}\n"
+            out += f"Source file: {record.source}\n"
+            if record.line is not None:
+                out += f"Line: {record.line}\n"
             for short, ref in zip(record.short_purpose, record.references):
                 out += f"\t[{index}] {short} - {ref}\n"
                 index += 1
@@ -66,7 +67,11 @@ class Biblio(dict):
         Returns:
             None
         """
-        package = inspect.getmodule(inspect.stack()[1][0]).__name__.split(".")[0]
+        module = inspect.getmodule(inspect.stack()[1][0])
+        if module is not None:
+            package = module.__name__.split(".")[0]
+        else:
+            package = ""
         src = Path(source)
         if src.suffix != ".bib":
             raise ValueError("References sources must be in bibtex format '.bib'")

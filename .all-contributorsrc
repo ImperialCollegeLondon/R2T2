@@ -15,7 +15,9 @@
         "doc",
         "test",
         "ideas",
-        "infra"
+        "infra",
+        "projectManagement",
+        "review"
       ]
     },
     {
@@ -33,7 +35,9 @@
       "avatar_url": "https://avatars2.githubusercontent.com/u/7795189?v=4",
       "profile": "http://www.chasnelson.co.uk",
       "contributions": [
-        "review"
+        "review",
+        "ideas",
+        "code"
       ]
     },
     {
@@ -43,7 +47,11 @@
       "profile": "https://erambler.co.uk/",
       "contributions": [
         "test",
-        "review"
+        "review",
+        "ideas",
+        "bug",
+        "doc",
+        "infra"
       ]
     },
     {
@@ -53,7 +61,11 @@
       "profile": "https://sites.google.com/view/valentinsulzer",
       "contributions": [
         "review",
-        "bug"
+        "bug",
+        "ideas",
+        "code",
+        "infra",
+        "example"
       ]
     },
     {
@@ -63,7 +75,10 @@
       "profile": "https://uk.linkedin.com/in/daniel-ecer",
       "contributions": [
         "code",
-        "test"
+        "test",
+        "bug",
+        "review",
+        "example"
       ]
     },
     {
@@ -82,6 +97,9 @@
       "avatar_url": "https://avatars1.githubusercontent.com/u/6338509?v=4",
       "profile": "http://orcid.org/0000-0002-8999-9003",
       "contributions": [
+        "review"
+        "ideas",
+        "bug",
         "code"
       ]
     }
